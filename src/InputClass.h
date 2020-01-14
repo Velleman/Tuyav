@@ -9,11 +9,11 @@ class InputClass
     InputClass(int pin = 0, int TuyaID = 0);
     void digitalStateInit();
     bool isDifferentState();
-    bool updateDigitalState();
-    int updateAnalogValue();
+    
+    
     int get_PinID();
 
-  private:
+  protected:
     int _pinID;
     int _tuyaPinID;
     bool _currentState = false;

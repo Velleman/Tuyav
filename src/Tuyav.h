@@ -10,12 +10,17 @@
 #include "OutputClass.h"
 #include "TuyaSerial.h"
 #include "mcu_api.h"
+#include "userValue.h"
 
-#define USER_VALUE_1 119
-#define USER_VALUE_2 120
-#define USER_VALUE_3 121
-#define USER_VALUE_4 122
-#define USER_VALUE_5 123
+#define AV1 119
+#define AV2 120
+#define AV3 121
+#define AV4 122
+#define AV5 123
+#define AV6 124
+#define AV7 125
+#define AV8 126
+#define AV9 127
 
 class Tuyav
 {
@@ -23,42 +28,54 @@ class Tuyav
     Tuyav(HardwareSerial* serial);
     Tuyav(SoftwareSerial* serial);
 
-    void setDigitalInputs(int pin1, int pin2, int pin3, int pin4, int pin5);
-    void setAnalogInputs(int pin1, int pin2, int pin3, int pin4, int pin5);
+    void setDigitalInputs(int pin1, int pin2, int pin3);
+    void setAnalogInputs(int pin1, int pin2, int pin3);
     void setDigitalOutputs(int pin1, int pin2, int pin3, int pin4, int pin5);
     void setAnalogOutputs(int pin1, int pin2, int pin3);
-    OutputClass getDigitalOutput(int id);
-    OutputClass getAnalogOutput(int id);
+    DigitalOutput getDigitalOutput(int id);
+    AnalogOutput getAnalogOutput(int id);
     TuyaSerial get_tuyaSerial();
 
     void sendUserValue(int TuyaPinID, int newValue);
-    void sendUserStringValue(int TuyaPinID, unsigned char value[]);
+    void setUserValue(int TuyaPinID, String value);
     void setWifiMode(unsigned char mode);
-	void resetWifi();
-    void setUpInit();
+	  void resetWifi();
+    void initialize();
     void tuyaUpdate();
-    void digitalUpdate();
-    void analogUpdate();
-    void digitalInputInit();
-    void digitalOutputInit();
-    void analogOutputInit();
-
-    int ANALOG_IN[5];
-    bool DIGITAL_IN[5];
+    
+    void setUpdateRateMs(unsigned long updateRate);
+    void setAV1(String value);
+    void setAV2(String value);
+    void setAV3(String value);
+    void setAV4(String value);
+    void setAV5(String value);
+    void setAV6(String value);
+    void setAV7(String value);
+    void setAV8(String value);
+    void setAV9(String value);
+    int ANALOG_IN[3];
+    bool DIGITAL_IN[3];
     int ANALOG_OUT[3];
     bool DIGITAL_OUT[5];
 
   private:
-    DigitalInput _digitalInputs[5];
-    AnalogInput _analogInputs[5];
+    DigitalInput _digitalInputs[3];
+    AnalogInput _analogInputs[3];
     DigitalOutput _digitalOutputs[5];
     AnalogOutput _analogOutputs[3];
+    UserValue _userValues[9];
     TuyaSerial _tuyaSerial;
 
-    const unsigned long eventTime1 = 2000;
-    const unsigned long eventTime2 = 8000;
+    void digitalInputInit();
+    void digitalOutputInit();
+    void analogOutputInit();
+    void userValueInit();
+    void digitalUpdate();
+    void analogUpdate();
+    void userValueUpdate();
+
+    unsigned long eventTime1 = 2000;
     unsigned long previousTime1 = 0;
-    unsigned long previousTime2 = 0;
 
     int _PinID;
     int _TuyaPinID;

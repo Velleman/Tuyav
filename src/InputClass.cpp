@@ -31,18 +31,6 @@ bool InputClass::isDifferentState()
   return _previousState != _currentState ? true : false;
 }
 
-//Update digital input states
-bool InputClass::updateDigitalState()
-{
-  mcu_dp_bool_update(_tuyaPinID, _currentState);
-  _previousState = _currentState;
-  return _currentState;
-}
 
-//Update analog input values
-int InputClass::updateAnalogValue()
-{
-  _currentValue = analogRead(_pinID);
-  mcu_dp_value_update(_tuyaPinID, _currentValue);
-  return _currentValue;
-}
+
+

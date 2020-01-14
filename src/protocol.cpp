@@ -99,11 +99,11 @@
             pay attention to the changes**
 ******************************************************************************/
 const char weather_choose[WEATHER_CHOOSE_CNT][10] = {
-  "temp",
-  "humidity",
-  "condition",
-  "pm25",
-  /*"pressure",
+    "temp",
+    "humidity",
+    "condition",
+    "pm25",
+    /*"pressure",
     "realFeel",
     "uvi",
     "tips",
@@ -132,7 +132,6 @@ const char weather_choose[WEATHER_CHOOSE_CNT][10] = {
   3:Do not call the escalation function in the interrupt/timer interrupt
 ******************************************************************************/
 
-
 /******************************************************************************
                           The first step: initialization
   1:Include "wifi.h" in files that need to use wifi related files
@@ -150,32 +149,31 @@ const char weather_choose[WEATHER_CHOOSE_CNT][10] = {
               the development platform, please re-download MCU_SDK**
 ******************************************************************************/
 const DOWNLOAD_CMD_S download_cmd[] =
-{
-  {DPID_DIN_1, DP_TYPE_BOOL},
-  {DPID_DIN_2, DP_TYPE_BOOL},
-  {DPID_DIN_3, DP_TYPE_BOOL},
-  {DPID_DIN_4, DP_TYPE_BOOL},
-  {DPID_DIN_5, DP_TYPE_BOOL},
-  {DPID_AIN_1, DP_TYPE_VALUE},
-  {DPID_AIN_2, DP_TYPE_VALUE},
-  {DPID_AIN_3, DP_TYPE_VALUE},
-  {DPID_AIN_4, DP_TYPE_VALUE},
-  {DPID_AIN_5, DP_TYPE_VALUE},
-  {DPID_DOUT_1, DP_TYPE_BOOL},
-  {DPID_DOUT_2, DP_TYPE_BOOL},
-  {DPID_DOUT_3, DP_TYPE_BOOL},
-  {DPID_DOUT_4, DP_TYPE_BOOL},
-  {DPID_DOUT_5, DP_TYPE_BOOL},
-  {DPID_AOUT_1, DP_TYPE_VALUE},
-  {DPID_AOUT_2, DP_TYPE_VALUE},
-  {DPID_AOUT_3, DP_TYPE_VALUE},
-  {DPID_AV1, DP_TYPE_STRING},
-  {DPID_AV2, DP_TYPE_STRING},
-  {DPID_AV3, DP_TYPE_STRING},
-  {DPID_AV4, DP_TYPE_VALUE},
-  {DPID_AV5, DP_TYPE_VALUE},
+    {
+        {DPID_DIN_1, DP_TYPE_BOOL},
+        {DPID_DIN_2, DP_TYPE_BOOL},
+        {DPID_DIN_3, DP_TYPE_BOOL},
+        {DPID_AIN_1, DP_TYPE_VALUE},
+        {DPID_AIN_2, DP_TYPE_VALUE},
+        {DPID_AIN_3, DP_TYPE_VALUE},
+        {DPID_DOUT_1, DP_TYPE_BOOL},
+        {DPID_DOUT_2, DP_TYPE_BOOL},
+        {DPID_DOUT_3, DP_TYPE_BOOL},
+        {DPID_DOUT_4, DP_TYPE_BOOL},
+        {DPID_DOUT_5, DP_TYPE_BOOL},
+        {DPID_AOUT_1, DP_TYPE_VALUE},
+        {DPID_AOUT_2, DP_TYPE_VALUE},
+        {DPID_AOUT_3, DP_TYPE_VALUE},
+        {DPID_AV1, DP_TYPE_STRING},
+        {DPID_AV2, DP_TYPE_STRING},
+        {DPID_AV3, DP_TYPE_STRING},
+        {DPID_AV4, DP_TYPE_STRING},
+        {DPID_AV5, DP_TYPE_STRING},
+        {DPID_AV6, DP_TYPE_STRING},
+        {DPID_AV7, DP_TYPE_STRING},
+        {DPID_AV8, DP_TYPE_STRING},
+        {DPID_AV9, DP_TYPE_STRING},
 };
-
 
 /******************************************************************************
                     2:Serial single-byte send function
@@ -229,39 +227,36 @@ void all_data_update(void)
 {
   // #error "Please process the reportable data and report only the data. After the processing is completed, delete the line."
 
-  mcu_dp_bool_update(DPID_DIN_1, 0);   //BOOL;
-  mcu_dp_bool_update(DPID_DIN_2, 0);   //BOOL;
-  mcu_dp_bool_update(DPID_DIN_3, 0);   //BOOL;
-  mcu_dp_bool_update(DPID_DIN_4, 0);   //BOOL;
-  mcu_dp_bool_update(DPID_DIN_5, 0);   //BOOL;
-  mcu_dp_value_update(DPID_AIN_1, 0);  //VALUE;
-  mcu_dp_value_update(DPID_AIN_2, 0);  //VALUE;
-  mcu_dp_value_update(DPID_AIN_3, 0);  //VALUE;
-  mcu_dp_value_update(DPID_AIN_4, 0);  //VALUE;
-  mcu_dp_value_update(DPID_AIN_5, 0);  //VALUE;
-  mcu_dp_bool_update(DPID_DOUT_1, 0);  //BOOL;
-  mcu_dp_bool_update(DPID_DOUT_2, 0);  //BOOL;
-  mcu_dp_bool_update(DPID_DOUT_3, 0);  //BOOL;
-  mcu_dp_bool_update(DPID_DOUT_4, 0);  //BOOL;
-  mcu_dp_bool_update(DPID_DOUT_5, 0);  //BOOL;
-  mcu_dp_value_update(DPID_AOUT_1, 0); //VALUE;
-  mcu_dp_value_update(DPID_AOUT_2, 0); //VALUE;
-  mcu_dp_value_update(DPID_AOUT_3, 0); //VALUE;
+  mcu_dp_bool_update(DPID_DIN_1, 0);      //BOOL;
+  mcu_dp_bool_update(DPID_DIN_2, 0);      //BOOL;
+  mcu_dp_bool_update(DPID_DIN_3, 0);      //BOOL;
+  mcu_dp_value_update(DPID_AIN_1, 0);     //VALUE;
+  mcu_dp_value_update(DPID_AIN_2, 0);     //VALUE;
+  mcu_dp_value_update(DPID_AIN_3, 0);     //VALUE;
+  mcu_dp_bool_update(DPID_DOUT_1, 0);     //BOOL;
+  mcu_dp_bool_update(DPID_DOUT_2, 0);     //BOOL;
+  mcu_dp_bool_update(DPID_DOUT_3, 0);     //BOOL;
+  mcu_dp_bool_update(DPID_DOUT_4, 0);     //BOOL;
+  mcu_dp_bool_update(DPID_DOUT_5, 0);     //BOOL;
+  mcu_dp_value_update(DPID_AOUT_1, 0);    //VALUE;
+  mcu_dp_value_update(DPID_AOUT_2, 0);    //VALUE;
+  mcu_dp_value_update(DPID_AOUT_3, 0);    //VALUE;
   mcu_dp_string_update(DPID_AV1, " ", 1); //STRING;
-  mcu_dp_string_update(DPID_AV2, " ", 1);    //VALUE;
-  mcu_dp_string_update(DPID_AV3, " ", 1);    //VALUE;
-  mcu_dp_value_update(DPID_AV4, 0);    //VALUE;
-  mcu_dp_value_update(DPID_AV5, 0);    //VALUE;
-
+  mcu_dp_string_update(DPID_AV2, " ", 1); //STRING;
+  mcu_dp_string_update(DPID_AV3, " ", 1); //STRING;
+  mcu_dp_string_update(DPID_AV4, " ", 1); //STRING;
+  mcu_dp_string_update(DPID_AV5, " ", 1); //STRING;
+  mcu_dp_string_update(DPID_AV6, " ", 1); //STRING;
+  mcu_dp_string_update(DPID_AV7, " ", 1); //STRING;
+  mcu_dp_string_update(DPID_AV8, " ", 1); //STRING;
+  mcu_dp_string_update(DPID_AV9, " ", 1); //STRING;
 }
-
 
 /******************************************************************************
                                 WARNING!!!
                             2:All data upload processing
   Automate code template functions, please implement data processing by yourself
 ******************************************************************************/
-
 
 /*****************************************************************************
   Function name : dp_download_dout_1_handle
@@ -497,7 +492,6 @@ static unsigned char dp_download_aout_3_handle(const unsigned char value[], unsi
     return ERROR;
 }
 
-
 /******************************************************************************
                                 WARNING!!!
   This code is called internally by the SDK.
@@ -528,7 +522,6 @@ void mcu_write_rtctime(unsigned char time[])
   if (time[0] == 1)
   {
     //Correctly receive the local clock data returned by the wifi module
-
   }
   else
   {
@@ -566,7 +559,6 @@ void wifi_test_result(unsigned char result, unsigned char rssi)
     //Test success
     //rssiis the signal strength (0-100, 0 signal is the worst, 100 signal is the strongest)
   }
-
 }
 #endif
 
@@ -587,7 +579,6 @@ unsigned char mcu_firm_update_handle(const unsigned char value[], unsigned long 
   if (length == 0)
   {
     //Firmware data transmission completed
-
   }
   else
   {
@@ -614,48 +605,48 @@ unsigned char mcu_firm_update_handle(const unsigned char value[], unsigned long 
 unsigned char dp_download_handle(unsigned char dpid, const unsigned char value[], unsigned short length)
 {
   /*********************************
-    Current function processing can issue/report data calls
-    Need to implement the data processing in the specific function
-    The result of the processing needs to be fed back to the APP, otherwise the APP will consider the delivery failure.
+  Current function processing can issue/report data calls                    
+  Need to implement the data processing in the specific function
+  The result of the processing needs to be fed back to the APP, otherwise the APP will consider the delivery failure.
   ***********************************/
   unsigned char ret;
-  switch (dpid)
+  switch(dpid)
   {
     case DPID_DOUT_1:
       //Digital Output 1processing function
-      ret = dp_download_dout_1_handle(value, length);
+      ret = dp_download_dout_1_handle(value,length);
       break;
     case DPID_DOUT_2:
-      //DigitalOutput_2processing function
-      ret = dp_download_dout_2_handle(value, length);
+      //Digital Output 2processing function
+      ret = dp_download_dout_2_handle(value,length);
       break;
     case DPID_DOUT_3:
-      //DigitalOutput_3processing function
-      ret = dp_download_dout_3_handle(value, length);
+      //Digital Output 3processing function
+      ret = dp_download_dout_3_handle(value,length);
       break;
     case DPID_DOUT_4:
-      //DigitalOutput_4processing function
-      ret = dp_download_dout_4_handle(value, length);
+      //Digital Output 4processing function
+      ret = dp_download_dout_4_handle(value,length);
       break;
     case DPID_DOUT_5:
-      //DigitalOutput_5processing function
-      ret = dp_download_dout_5_handle(value, length);
+      //Digital Output 5processing function
+      ret = dp_download_dout_5_handle(value,length);
       break;
     case DPID_AOUT_1:
-      //AnalogOutput_1processing function
-      ret = dp_download_aout_1_handle(value, length);
+      //Analog Output 1processing function
+      ret = dp_download_aout_1_handle(value,length);
       break;
     case DPID_AOUT_2:
-      //AnalogOutput_2processing function
-      ret = dp_download_aout_2_handle(value, length);
+      //Analog Output 2processing function
+      ret = dp_download_aout_2_handle(value,length);
       break;
     case DPID_AOUT_3:
-      //AnalogOutput_3processing function
-      ret = dp_download_aout_3_handle(value, length);
+      //Analog Output 3processing function
+      ret = dp_download_aout_3_handle(value,length);
       break;
 
-    default:
-      break;
+  default:
+    break;
   }
   return ret;
 }
@@ -692,7 +683,7 @@ void weather_open_return_handle(unsigned char res, unsigned char err)
   else if (res == 0)
   {
     //Open weather return failed
-    err_num = err;//Get the error code
+    err_num = err; //Get the error code
   }
 }
 
@@ -708,7 +699,7 @@ void weather_data_user_handle(char *name, unsigned char type, char *data)
 {
   //#error "Here is just an example. Please correct the weather data processing code yourself. Please delete the line after you finish."
   int value_int;
-  char value_string[50];//Since there are many parameters, the default is 50.
+  char value_string[50]; //Since there are many parameters, the default is 50.
   //You can reduce this value appropriately based on the defined parameters.
 
   my_memset(value_string, '/0', 50);
@@ -716,7 +707,8 @@ void weather_data_user_handle(char *name, unsigned char type, char *data)
   //First get the data type
   if (type == 0) //The parameter is INT type
   {
-    value_int = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3]; Here is just an example. Please correct the weather data processing code yourself. Please delete the line after you finish.
+    value_int = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
+    Here is just an example.Please correct the weather data processing code yourself.Please delete the line after you finish.
   }
   else if (type == 1)
   {

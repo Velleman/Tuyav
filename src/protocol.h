@@ -200,75 +200,75 @@
             such as the relevant changes in the development platform,
             please re-download MCU_SDK**
 ******************************************************************************/
-//DigitalInput_1(只上报)
+//Digital Input 1(只上报)
 //Notes:The DigitalInput_1 reads the state of digital input number 1.
 #define DPID_DIN_1 101
-//DigitalInput_2(只上报)
+//Digital Input 2(只上报)
 //Notes:The DigitalInput_2 reads the state of digital input number 2.
 #define DPID_DIN_2 102
-//DigitalInput_3(只上报)
+//Digital Input 3(只上报)
 //Notes:The DigitalInput_3 reads the state of digital input number 3.
 #define DPID_DIN_3 103
-//DigitalInput_4(只上报)
-//Notes:The DigitalInput_4 reads the state of digital input number 4.
-#define DPID_DIN_4 104
-//DigitalInput_5(只上报)
-//Notes:The DigitalInput_5 reads the state of digital input number 5.
-#define DPID_DIN_5 105
-//AnalogInput_1(只上报)
-//Notes:The AnalogInput_1 reads the value of analog input number 1.
+//Analog Input 1(只上报)
+//Notes:The AnalogInput_1 reads the value of analog input number 1. 
 #define DPID_AIN_1 106
-//AnalogInput_2(只上报)
-//Notes:The AnalogInput_2 reads the value of analog input number 2.
+//Analog Input 2(只上报)
+//Notes:The AnalogInput_2 reads the value of analog input number 2. 
 #define DPID_AIN_2 107
-//AnalogInput_3(只上报)
+//Analog Input 3(只上报)
 //Notes:The AnalogInput_3 reads the value of analog input number 3.
 #define DPID_AIN_3 108
-//AnalogInput_4(只上报)
-//Notes:The AnalogInput_4 reads the value of analog input number 4.
-#define DPID_AIN_4 109
-//AnalogInput_5(只上报)
-//Notes:The AnalogInput_5 reads the value of analog input number 5.
-#define DPID_AIN_5 110
 //Digital Output 1(可下发可上报)
-//Notes:The DigitalOutput_1 reads and writes on digital output number 1.
+//Notes:The DigitalOutput_1 reads and writes on digital output number 1. 
 #define DPID_DOUT_1 111
-//DigitalOutput_2(可下发可上报)
-//Notes:The DigitalOutput_2 reads and writes on digital output number 2.
+//Digital Output 2(可下发可上报)
+//Notes:The DigitalOutput_2 reads and writes on digital output number 2. 
 #define DPID_DOUT_2 112
-//DigitalOutput_3(可下发可上报)
-//Notes:The DigitalOutput_3 reads and writes on digital output number 3.
+//Digital Output 3(可下发可上报)
+//Notes:The DigitalOutput_3 reads and writes on digital output number 3. 
 #define DPID_DOUT_3 113
-//DigitalOutput_4(可下发可上报)
-//Notes:The DigitalOutput_4 reads and writes on digital output number 4.
+//Digital Output 4(可下发可上报)
+//Notes:The DigitalOutput_4 reads and writes on digital output number 4. 
 #define DPID_DOUT_4 114
-//DigitalOutput_5(可下发可上报)
-//Notes:The DigitalOutput_5 reads and writes on digital output number 5.
+//Digital Output 5(可下发可上报)
+//Notes:The DigitalOutput_5 reads and writes on digital output number 5. 
 #define DPID_DOUT_5 115
-//AnalogOutput_1(可下发可上报)
+//Analog Output 1(可下发可上报)
 //Notes:The AnalogOutput_1 reads and writes on analog output number 1.
 #define DPID_AOUT_1 116
-//AnalogOutput_2(可下发可上报)
+//Analog Output 2(可下发可上报)
 //Notes:The AnalogOutput_2 reads and writes on analog output number 2.
 #define DPID_AOUT_2 117
-//AnalogOutput_3(可下发可上报)
+//Analog Output 3(可下发可上报)
 //Notes:The AnalogOutput_3 reads and writes on analog output number 3.
 #define DPID_AOUT_3 118
-//AValue_1(只上报)
-//Notes:Value_1 is read by Tuya cloud.
+//AV1(只上报)
+//Notes:
 #define DPID_AV1 119
-//AValue_2(只上报)
-//Notes:Value_2 is read by Tuya cloud.
+//AV2(只上报)
+//Notes:
 #define DPID_AV2 120
-//AValue_3(只上报)
-//Notes:Value_3 is read by Tuya cloud.
+//AV3(只上报)
+//Notes:
 #define DPID_AV3 121
-//AValue_4(只上报)
-//Notes:Value_4 is read by Tuya cloud.
+//AV4(只上报)
+//Notes:
 #define DPID_AV4 122
-//AValue_5(只上报)
-//Notes:Value_5 is read by Tuya cloud.
+//AV5(只上报)
+//Notes:
 #define DPID_AV5 123
+//AV6(只上报)
+//Notes:
+#define DPID_AV6 124
+//AV7(只上报)
+//Notes:
+#define DPID_AV7 125
+//AV8(只上报)
+//Notes:
+#define DPID_AV8 126
+//AV9(只上报)
+//Notes:
+#define DPID_AV9 127
 
 
 /*****************************************************************************

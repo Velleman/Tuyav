@@ -16,23 +16,19 @@ Tuyav::Tuyav(SoftwareSerial* serial)
 }
 
 //Set digital input pins
-void Tuyav::setDigitalInputs(int pin1, int pin2, int pin3, int pin4, int pin5)
+void Tuyav::setDigitalInputs(int pin1, int pin2, int pin3)
 {
   _digitalInputs[0] = DigitalInput(pin1, 101);
   _digitalInputs[1] = DigitalInput(pin2, 102);
   _digitalInputs[2] = DigitalInput(pin3, 103);
-  _digitalInputs[3] = DigitalInput(pin4, 104);
-  _digitalInputs[4] = DigitalInput(pin5, 105);
 }
 
 //Set analog input pins
-void Tuyav::setAnalogInputs(int pin1, int pin2, int pin3, int pin4, int pin5)
+void Tuyav::setAnalogInputs(int pin1, int pin2, int pin3)
 {
   _analogInputs[0] = AnalogInput(pin1, 106);
   _analogInputs[1] = AnalogInput(pin2, 107);
   _analogInputs[2] = AnalogInput(pin3, 108);
-  _analogInputs[3] = AnalogInput(pin4, 109);
-  _analogInputs[4] = AnalogInput(pin5, 110);
 }
 
 //Set digital output pins
@@ -54,13 +50,13 @@ void Tuyav::setAnalogOutputs(int pin1, int pin2, int pin3)
 }
 
 //To access digital output pin ids
-OutputClass Tuyav::getDigitalOutput(int id)
+DigitalOutput Tuyav::getDigitalOutput(int id)
 {
   return _digitalOutputs[id].get_PinID();
 }
 
 //To access analog output pin ids
-OutputClass Tuyav::getAnalogOutput(int id)
+AnalogOutput Tuyav::getAnalogOutput(int id)
 {
   return _analogOutputs[id].get_PinID();
 }
@@ -72,7 +68,7 @@ TuyaSerial Tuyav::get_tuyaSerial()
 }
 
 //Tuya setup Function
-void Tuyav::setUpInit()
+void Tuyav::initialize()
 {
   //Serial.begin(9600);
 
@@ -82,6 +78,15 @@ void Tuyav::setUpInit()
   digitalInputInit();  //Call digitalInputInit() Function
   digitalOutputInit(); //Call digitalOutputInit() Function
   analogOutputInit();  //Call analogOutputInit() Function
+  userValueInit();
+}
+
+void Tuyav::userValueInit()
+{
+  for(int i=0;i<9;i++)
+  {
+    _userValues[i].setID(AV1+i);
+  }
 }
 
 //Tuya Update Function
@@ -98,25 +103,23 @@ void Tuyav::tuyaUpdate()
 
   unsigned long currentTime = millis();
 
-  //check if the last time is more than 100ms ago
+  //check if the last time is more than 2000ms ago
   if (currentTime - previousTime1 >= eventTime1)
   {
     digitalUpdate();
-    previousTime1 = currentTime;
-  }
-
-  //check if the last time is more than 600ms ago
-  if (currentTime - previousTime2 >= eventTime2)
-  {
+    wifi_uart_service();
     analogUpdate();
-    previousTime2 = currentTime;
+    wifi_uart_service();
+    userValueUpdate();
+    wifi_uart_service();
+    previousTime1 = millis();
   }
 }
 
 //Initialize each digital inputs
 void Tuyav::digitalInputInit()
 {
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 3; i++)
   {
     _digitalInputs[i].digitalStateInit();
   }
@@ -147,7 +150,7 @@ void Tuyav::digitalUpdate()
 {
 
   //Compare if different send update
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 3; i++)
   {
     if (_digitalInputs[i].isDifferentState() && _digitalInputs[i].get_PinID() != PIN_UNUSED)
     {
@@ -156,10 +159,19 @@ void Tuyav::digitalUpdate()
   }
 }
 
+void Tuyav::userValueUpdate()
+{
+  for(int i =0;i<9;i++)
+  {
+   mcu_dp_string_update(AV1+i,reinterpret_cast<const unsigned char *>(_userValues[i].getValue().c_str())
+   ,_userValues[i].getValue().length());
+  }
+}
+
 //Update each analog inputs
 void Tuyav::analogUpdate()
 {
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 3; i++)
   {
     if (_analogInputs[i].get_PinID() != PIN_UNUSED)
     {
@@ -167,16 +179,12 @@ void Tuyav::analogUpdate()
     }
   }
 }
-//Send user's arbitrary value to the cloud
-void Tuyav::sendUserValue(int TuyaPinID, int newValue)
-{
-  mcu_dp_value_update(TuyaPinID, newValue);
-}
 
 //Send user's arbitrary String value to the cloud
-void Tuyav::sendUserStringValue(int TuyaPinID, unsigned char value[])
+void Tuyav::setUserValue(int TuyaPinID, String value)
 {
-  mcu_dp_string_update(TuyaPinID, value, strlen(value));
+  uint8_t index = TuyaPinID - AV1;
+  _userValues[index].setValue(value);
 }
 
 //Set Wi-Fi Mode Function
@@ -189,3 +197,57 @@ void Tuyav::resetWifi()
 {
 	mcu_reset_wifi();
 }
+
+void Tuyav::setUpdateRateMs(unsigned long updateRate)
+{
+  if(updateRate < 2000)
+    updateRate = 2000;
+  eventTime1 = updateRate;
+}
+
+void Tuyav::setAV1(String value)
+{
+  _userValues[0].setValue(value);
+}
+
+void Tuyav::setAV2(String value)
+{
+  _userValues[1].setValue(value);
+}
+
+void Tuyav::setAV3(String value)
+{
+  _userValues[2].setValue(value);
+}
+
+void Tuyav::setAV4(String value)
+{
+  _userValues[3].setValue(value);
+}
+
+void Tuyav::setAV5(String value)
+{
+  _userValues[4].setValue(value);
+}
+
+void Tuyav::setAV6(String value)
+{
+  _userValues[5].setValue(value);
+}
+
+void Tuyav::setAV7(String value)
+{
+  _userValues[6].setValue(value);
+}
+
+void Tuyav::setAV8(String value)
+{
+  _userValues[7].setValue(value);
+}
+
+void Tuyav::setAV9(String value)
+{
+  _userValues[8].setValue(value);
+}
+
+

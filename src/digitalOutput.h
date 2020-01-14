@@ -8,5 +8,7 @@ class DigitalOutput : public OutputClass
 {
   public:
     DigitalOutput(int pin = 0, int TuyaID = 0): OutputClass(pin, TuyaID) {}
+    void digitalOutputStateInit();
+    void writeDigital(bool state);
 };
 #endif

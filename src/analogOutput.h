@@ -6,6 +6,8 @@ class AnalogOutput : public OutputClass
 {
   public:
     AnalogOutput(int pin = 0, int TuyaID = 0) : OutputClass(pin, TuyaID) {}
+    void analogOutputValueInit();
+    void writeAnalog(int value);
 
 
 };

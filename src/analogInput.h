@@ -6,7 +6,7 @@ class AnalogInput : public InputClass
 {
   public:
     AnalogInput(int pin = 0, int TuyaID = 0) : InputClass(pin, TuyaID) {}
-
+    int updateAnalogValue();
 
 };
 #endif
