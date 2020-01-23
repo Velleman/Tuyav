@@ -12,7 +12,6 @@
 Tuyav tuyav(&Serial1);
 
 //Initialize Time for updating Arbitrary Values
-const unsigned long eventTime = 2000;
 unsigned long previousTime = 0;
 bool isLampOn = false;
 
@@ -39,15 +38,6 @@ void setup() {
 void loop() {
   //Should be called continuously 
   tuyav.tuyaUpdate();
-
-  //example: user can access the inputs values and states
-  int D_IN_1 = tuyav.DIGITAL_IN[0];     // "tuyav.DIGITAL_IN[0]" returns the state of the first digital input
-  int A_IN_1 = tuyav.ANALOG_IN[0];      // "tuyav.ANALOG_IN[0]" returns the value of the first analog input
-
-  //example: user can access the outputs values and states
-  int D_OUT_1 = tuyav.DIGITAL_OUT[0];    // "tuyav.DIGITAL_OUT[0]" returns the state of the first digital output
-  int A_OUT_1 = tuyav.ANALOG_OUT[0];     // "tuyav.ANALOG_OUT[0]" returns the value of the first analog output
-
   //User can send an Arbitrary value to the cloud calling "tuyav.sendUserStringValue(USER_VALUE_1/USER_VALUE_2/USER_VALUE_3, "UserStringValue")" and "tuyav.sendUserValue(USER_VALUE_4/, UserValue)"
 
   int sensorValue1 = 10; //User define a value for USER_VALUE_4

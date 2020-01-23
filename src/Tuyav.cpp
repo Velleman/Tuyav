@@ -70,7 +70,7 @@ TuyaSerial Tuyav::get_tuyaSerial()
 //Tuya setup Function
 void Tuyav::initialize()
 {
-  //Serial.begin(9600);
+  Serial.begin(9600);
 
   //" Please add wifi_protocol_init() in the main function to complete the wifi protocol initialization."
   wifi_protocol_init();
