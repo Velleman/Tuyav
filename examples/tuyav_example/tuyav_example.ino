@@ -3,14 +3,16 @@
 #include "global.h"
 
 
+#if defined(ARDUINO_AVR_UNO)
 //User can choose SoftwareSerial
 //you can choose your own pins
-//SoftwareSerial mySerial(2,3);
-
-//User can choose HardwareSerial: Serial1/Serial2/Serial3
-// Serial1 is pin 18/19 on a Arduino Mega
-Tuyav tuyav(&Serial1);
-
+SoftwareSerial mySerial(2,3);
+Tuyav tuyav(&mySerial);
+#else // Mega
+  //User can choose HardwareSerial: Serial1/Serial2/Serial3
+  // Serial1 is pin 18/19 on a Arduino Mega
+  Tuyav tuyav(&Serial1);
+#endif
 //Initialize Time for updating Arbitrary Values
 unsigned long previousTime = 0;
 bool isLampOn = false;
