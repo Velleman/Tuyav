@@ -6,23 +6,20 @@ OutputClass		KEYWORD1
 DigitalOutput		KEYWORD1
 AnalogOutput		KEYWORD1
 TuyaSerial		KEYWORD1
-HardwareSerial		KEYWORD1
 
-digitalStateInit	KEYWORD2
-isDifferentState	KEYWORD2
-updateDigitalState	KEYWORD2
-updateAnalogValue	KEYWORD2
 writeDigital		KEYWORD2
 writeAnalog		KEYWORD2
 get_PinID		KEYWORD2
+
+isDifferentState	KEYWORD2
+digitalStateInit	KEYWORD2
+updateDigitalState	KEYWORD2
+
 setAnalogInputs		KEYWORD2
 setDigitalInputs	KEYWORD2
 setDigitalOutputs	KEYWORD2
 setAnalogOutputs	KEYWORD2
-initialize		KEYWORD2
-tuyaUpdate		KEYWORD2
-digitalUpdate		KEYWORD2
-analogUpdate		KEYWORD2
+
 getDigitalOutput	KEYWORD2
 getAnalogOutput		KEYWORD2
 get_tuyaSerial		KEYWORD2
@@ -30,6 +27,8 @@ sendUserValue		KEYWORD2
 setUserValue	KEYWORD2
 setWifiMode		KEYWORD2
 resetWifi	KEYWORD2
+initialize		KEYWORD2
+tuyaUpdate		KEYWORD2
 setAV1	KEYWORD2
 setAV2	KEYWORD2
 setAV3	KEYWORD2
@@ -39,3 +38,4 @@ setAV6	KEYWORD2
 setAV7	KEYWORD2
 setAV8	KEYWORD2
 setAV9	KEYWORD2
+setUpdateRateMs	KEYWORD2
