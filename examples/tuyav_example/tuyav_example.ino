@@ -1,4 +1,3 @@
-#include "Arduino.h"
 #include "Tuyav.h"
 #include "global.h"
 
@@ -24,7 +23,7 @@ void setup() {
   *PIN 18 is A5
   */
 
-  tuyav.setDigitalInputs(8, 12, 18);        //Set DigitalInputs: needs 5 pins
+  tuyav.setDigitalInputs(8, 12, 18);        //Set DigitalInputs
   tuyav.setAnalogInputs(A0, A1, A2);        //Set AnalogInputs
   tuyav.setDigitalOutputs(13, 4, 5, 6, 7);  //SetDigitalOutputs
   tuyav.setAnalogOutputs(9, 10, 11);               //Set AnalogOutputs
