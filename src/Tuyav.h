@@ -57,6 +57,7 @@ class Tuyav
     bool DIGITAL_IN[3];
     int ANALOG_OUT[3];
     bool DIGITAL_OUT[5];
+	void setDebug(bool enabled);
 
   private:
     DigitalInput _digitalInputs[3];
@@ -80,6 +81,7 @@ class Tuyav
     int _PinID;
     int _TuyaPinID;
     int _value;
+	bool _debug;
 
 
 };

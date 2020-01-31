@@ -70,7 +70,10 @@ TuyaSerial Tuyav::get_tuyaSerial()
 //Tuya setup Function
 void Tuyav::initialize()
 {
-  Serial.begin(9600);
+  if(_debug)
+  {
+    Serial.begin(9600);
+  }
 
   //" Please add wifi_protocol_init() in the main function to complete the wifi protocol initialization."
   wifi_protocol_init();
@@ -92,15 +95,18 @@ void Tuyav::userValueInit()
 //Tuya Update Function
 void Tuyav::tuyaUpdate()
 {
-  wifi_uart_service();
+  
   while (_tuyaSerial.available())
   {
     char c = _tuyaSerial.read();
-    //Serial.println(c,HEX);
+	if(_debug)
+	{
+		Serial.println(c,HEX);
+	}
     //"Please call uart_receive_input(value) in the serial port receive interrupt. The serial port data is processed by MCU_SDK. The user should not process it separately."
     uart_receive_input(c);
   }
-
+	wifi_uart_service();
   unsigned long currentTime = millis();
 
   //check if the last time is more than 2000ms ago
@@ -248,6 +254,11 @@ void Tuyav::setAV8(String value)
 void Tuyav::setAV9(String value)
 {
   _userValues[8].setValue(value);
+}
+
+void Tuyav::setDebug(bool enabled)
+{
+	_debug = enabled;
 }
 
 
