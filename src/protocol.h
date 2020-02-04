@@ -143,9 +143,9 @@
           The MCU calls the mcu_reset_wifi() function in the mcu_api.c file where it needs to handle the reset wifi, and can call the mcu_get_reset_wifi_flag() function to return the reset wifi result
           or call the mcu_set_wifi_mode(WIFI_CONFIG_E mode) function in the mcu_api.c file in the wifi mode, and call mcu_get_wifi_work_state() to return the setting wifi result.
 ******************************************************************************/
-//#define         WIFI_CONTROL_SELF_MODE                       //Wifi self-processing button and LED indicator; if the MCU external button / LED indicator please turn off the macro
+#define         WIFI_CONTROL_SELF_MODE                       //Wifi self-processing button and LED indicator; if the MCU external button / LED indicator please turn off the macro
 #ifdef          WIFI_CONTROL_SELF_MODE                      //Module self-processing
-#define     WF_STATE_KEY            14                    //Wifi module status indication button, please set according to the actual GPIO pin
+#define     WF_STATE_KEY            5                    //Wifi module status indication button, please set according to the actual GPIO pin
 #define     WF_RESERT_KEY           0                  //Wifi module reset button, please set according to the actual GPIO pin
 #endif
 

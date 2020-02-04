@@ -38,8 +38,6 @@ class Tuyav
 
     void sendUserValue(int TuyaPinID, int newValue);
     void setUserValue(int TuyaPinID, String value);
-    void setWifiMode(unsigned char mode);
-	  void resetWifi();
     void initialize();
     void tuyaUpdate();
     

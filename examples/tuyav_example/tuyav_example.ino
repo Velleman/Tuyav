@@ -28,10 +28,6 @@ void setup() {
   tuyav.setDigitalOutputs(13, 4, 5, 6, 7);  //SetDigitalOutputs
   tuyav.setAnalogOutputs(9, 10, 11);               //Set AnalogOutputs
 
-  //UNCOMMENT NEXT LINE TO PAIR THE MODULE, COMMENT THE LINE AFTER PAIRING AND REFLASH THE ARDUINO
-  //Next line should only be executed once
-  //tuyav.setWifiMode(SMART_CONFIG_STATE);
-
   tuyav.initialize();
 
 }

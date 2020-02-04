@@ -193,17 +193,6 @@ void Tuyav::setUserValue(int TuyaPinID, String value)
   _userValues[index].setValue(value);
 }
 
-//Set Wi-Fi Mode Function
-void Tuyav::setWifiMode(unsigned char mode)
-{
-  mcu_set_wifi_mode(mode);
-}
-
-void Tuyav::resetWifi()
-{
-	mcu_reset_wifi();
-}
-
 void Tuyav::setUpdateRateMs(unsigned long updateRate)
 {
   if(updateRate < 2000)
