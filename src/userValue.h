@@ -1,6 +1,6 @@
 #ifndef USERVALUE_H
 #define USERVALUE_H
-#include "WString.h"
+#include "Arduino.h"
 class UserValue
 {
     public:
