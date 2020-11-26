@@ -156,7 +156,7 @@
   Mcu can call the mcu_get_system_time() function to initiate the calibration function after the wifi module is properly networked.
 
 ******************************************************************************/
-//#define         SUPPORT_MCU_RTC_CHECK                //Turn on time calibration
+#define         SUPPORT_MCU_RTC_CHECK                //Turn on time calibration
 
 /******************************************************************************
                       6:Does the MCU need to support the wifi function test?
@@ -174,7 +174,7 @@
   #err hint in these two functions, delete the #err after completing the function
 
 ******************************************************************************/
-//#define         WEATHER_ENABLE                 //Turn on weather function
+#define         WEATHER_ENABLE                 //Turn on weather function
 #ifdef          WEATHER_ENABLE
 #define         WEATHER_CHOOSE_CNT             4
 #endif

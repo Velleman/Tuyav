@@ -421,8 +421,8 @@ static unsigned char dp_download_aout_1_handle(const unsigned char value[], unsi
   {
     tuyav.getAnalogOutput(0).writeAnalog(aout_1);
     tuyav.ANALOG_OUT[0] = aout_1;
-    Serial.print("AOUT1 ");
-    Serial.println(aout_1);
+    //Serial.print("AOUT1 ");
+    //Serial.println(aout_1);
   }
 
   //处理完DP数据后应有反馈
@@ -451,8 +451,8 @@ static unsigned char dp_download_aout_2_handle(const unsigned char value[], unsi
   {
     tuyav.getAnalogOutput(1).writeAnalog(aout_2);
     tuyav.ANALOG_OUT[1] = aout_2;
-    Serial.print("AOUT2 ");
-    Serial.println(aout_2);
+    //Serial.print("AOUT2 ");
+    //Serial.println(aout_2);
   }
   //处理完DP数据后应有反馈
   ret = mcu_dp_value_update(DPID_AOUT_2, aout_2);
@@ -481,8 +481,8 @@ static unsigned char dp_download_aout_3_handle(const unsigned char value[], unsi
     tuyav.getAnalogOutput(2).writeAnalog(aout_3);
     tuyav.ANALOG_OUT[2] = aout_3;
 
-    Serial.print("AOUT3 ");
-    Serial.println(aout_3);
+    //Serial.print("AOUT3 ");
+    //Serial.println(aout_3);
   }
   //处理完DP数据后应有反馈
   ret = mcu_dp_value_update(DPID_AOUT_3, aout_3);
@@ -509,23 +509,44 @@ void mcu_write_rtctime(unsigned char time[])
 {
   //#error "Please complete the RTC clock write code yourself and delete the line."
   /*
-     Time[0] is the time success flag, 0 is a failure, and 1 is a success.
-     Time[1] is the year and 0x00 is the year 2000.
-     Time[2] is the month, starting from 1 to ending at 12
-     Time[3] is the date, starting from 1 to 31
-     Time[4] is the clock, starting from 0 to ending at 23
-     Time[5] is minutes, starting from 0 to ending at 59
-     Time[6] is seconds, starting from 0 to ending at 59
-     Time[7] is the week, starting from 1 to 7 and 1 is Monday.
+     time[0] is the time success flag, 0 is a failure, and 1 is a success.
+     time[1] is the year and 0x00 is the year 2000. 			Format yy
+     time[2] is the month, starting from 1 to ending at 12. 	Format mm
+     time[3] is the date, starting from 1 to 31					Format dd
+     time[4] is the clock, starting from 0 to ending at 23		Format hh
+     time[5] is minutes, starting from 0 to ending at 59		Format mm
+     time[6] is seconds, starting from 0 to ending at 59		Format ss
+     time[7] is the week, starting from 1 to 7 and 1 is Monday.	Format d
 
   */
   if (time[0] == 1)
   {
     //Correctly receive the local clock data returned by the wifi module
+	//update Tuyav value with new time
+	tuyav.newTime[0] = time[0];			//time updated 							(0=no, 1=yes)
+	tuyav.newTime[1] = time[1]; 		//year 	in yy 	format					(00-99)
+	tuyav.newTime[2] = time[2];			//month in mm 	format 					(1-12)
+	tuyav.newTime[3] = time[3]; 		//date 	in dd 	format 					(1-31)
+	tuyav.newTime[4] = time[4]; 		//hour 	in hh	format					(0-23)
+	tuyav.newTime[5] = time[5];			//minute in mm	format					(0-59)
+	tuyav.newTime[6] = time[6];			//seconds in ss format					(0-59)
+	tuyav.newTime[7] = time[7];			//weekday in d  format					(1-7)   1=Monday
+	
+	//fixing year & weekDay
+	tuyav.newTime[1] = tuyav.newTime[1] + 2000;					//add 2000 so year now reports in yyyy format (2000-2099)
+	if(tuyav.newTime[7] < 7){tuyav.newTime[7] = tuyav.newTime[7] + 1;} else {tuyav.newTime[7] = 1;} //since 1= monday & most RTC clocks use 1=sunday, increment with 1 (except when 7, then 1);
   }
   else
   {
     //Error getting local clock data, it may be that the current wifi module is not connected
+	tuyav.newTime[0] = 0;
+	tuyav.newTime[1] = 0;
+	tuyav.newTime[2] = 0;
+	tuyav.newTime[3] = 0;
+	tuyav.newTime[4] = 0;
+	tuyav.newTime[5] = 0;
+	tuyav.newTime[6] = 0;
+	tuyav.newTime[7] = 0;
   }
 }
 #endif
@@ -674,6 +695,8 @@ unsigned char get_download_cmd_total(void)
 void weather_open_return_handle(unsigned char res, unsigned char err)
 {
   //#error "Please complete the M open weather function to return the data processing code. Please delete the line after completion."
+  Serial.println("function 'weather_open_return_handle' called");
+  
   unsigned char err_num = 0;
 
   if (res == 1)
@@ -698,6 +721,8 @@ void weather_open_return_handle(unsigned char res, unsigned char err)
 void weather_data_user_handle(char *name, unsigned char type, char *data)
 {
   //#error "Here is just an example. Please correct the weather data processing code yourself. Please delete the line after you finish."
+  Serial.println("function 'weather_data_user_handle' called");
+  
   int value_int;
   char value_string[50]; //Since there are many parameters, the default is 50.
   //You can reduce this value appropriately based on the defined parameters.
@@ -708,7 +733,7 @@ void weather_data_user_handle(char *name, unsigned char type, char *data)
   if (type == 0) //The parameter is INT type
   {
     value_int = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
-    Here is just an example.Please correct the weather data processing code yourself.Please delete the line after you finish.
+    //Here is just an example.Please correct the weather data processing code yourself.Please delete the line after you finish.
   }
   else if (type == 1)
   {

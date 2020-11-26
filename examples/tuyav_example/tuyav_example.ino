@@ -7,11 +7,11 @@
  *  for the full manual, please visit https://www.vellemanformakers.com/product/VMA354
  *  
  *  Connections:
- *  VMA354    Arduino UNO     Arduino MEGA
- *  VCC       5V              5V
- *  GND       GND             GND
- *  TX        RX (pin2)       RX1 (pin19)
- *  RX        TX (pin3)       TX1 (pin18)
+ *  VMA354    Arduino UNO           Arduino MEGA          Arduino Nano Every
+ *  VCC       5V                    5V                    5V
+ *  GND       GND                   GND                   GND
+ *  TX        PIN2  (SWserial RX)   PIN19 (Serial1 RX1)   PIN RX0 (Serial1 RX0)
+ *  RX        PIN3  (SWserial TX)   PIN18 (Serial1 TX1)   PIN TX1 (Serial1 TX1)
  */
 
 
@@ -24,7 +24,7 @@
 SoftwareSerial mySWserial(2,3); //RX,TX (2 and 3 are recommended)
 Tuyav tuyav(&mySWserial);         
 #else                           //Arduino Mega board: User can choose HardwareSerial: Serial1/Serial2/Serial3
-  Tuyav tuyav(&Serial1);        //Serial1 is pin 18/19 on a Arduino Mega
+  Tuyav tuyav(&Serial1);        //Serial1 is pin 18/19 on a Arduino Mega or pin TX1/RX0 on a Arduino Nano Every
 #endif
 
 //Initialize Time for updating Arbitrary Values
@@ -38,6 +38,12 @@ void setup()
   //start serial for debugging
   Serial.begin(9600);
   Serial.println("Tuya Demo program");
+
+  //if ArduinoMega or ArduinoNanoEvery, start Serial1
+  #if defined(ARDUINO_AVR_UNO)
+  #else 
+    Serial1.begin(9600);
+  #endif
   
   //define the TUYA pins
   // There are 3 digital inputs, 3 analog inputs, 5 digital output and 3 analog outputs available

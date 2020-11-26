@@ -56,6 +56,8 @@ class Tuyav
     int ANALOG_OUT[3];
     bool DIGITAL_OUT[5];
 	void setDebug(bool enabled);
+	void getTime();
+	int newTime[8];
 
   private:
     DigitalInput _digitalInputs[3];

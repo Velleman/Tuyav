@@ -250,4 +250,8 @@ void Tuyav::setDebug(bool enabled)
 	_debug = enabled;
 }
 
+void Tuyav::getTime()
+{
+	wifi_uart_write_frame(GET_LOCAL_TIME_CMD, 0);
+}
 

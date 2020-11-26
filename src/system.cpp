@@ -310,6 +310,7 @@ static unsigned char data_point_handle(const unsigned char value[])
 *****************************************************************************/
 void mcu_open_weather(void)
 {
+  Serial.println("function 'mcu_open_weather' called");
   int i = 0;
   char temp[10], buffer[13] = "xw.xxxxxxxxxx";
   char result[WEATHER_CHOOSE_CNT * 13 + 8];
@@ -457,7 +458,7 @@ void data_handle(unsigned short offset)
       wifi_work_state = wifi_uart_rx_buf[offset + DATA_START];
       wifi_uart_write_frame(WIFI_STATE_CMD, 0);
 #ifdef WEATHER_ENABLE
-      if (wifi_work_state == WIFI_CONNECTED && isWoSend == 0)  //When the WIFI connection is successful, open the weather data and only once
+	  if (wifi_work_state == WIFI_CONNECTED && isWoSend == 0)  //When the WIFI connection is successful, open the weather data and only once
       {
         mcu_open_weather();
         isWoSend = 1;
