@@ -112,11 +112,11 @@ void Tuyav::tuyaUpdate()
   //check if the last time is more than 2000ms ago
   if (currentTime - previousTime1 >= eventTime1)
   {
-    digitalUpdate();
+    //digitalUpdate();
     wifi_uart_service();
-    analogUpdate();
+    //analogUpdate();
     wifi_uart_service();
-    userValueUpdate();
+    //userValueUpdate();
     wifi_uart_service();
     previousTime1 = millis();
   }
@@ -252,6 +252,17 @@ void Tuyav::setDebug(bool enabled)
 
 void Tuyav::getTime()
 {
-	wifi_uart_write_frame(GET_LOCAL_TIME_CMD, 0);
+	wifi_uart_write_frame(GET_LOCAL_TIME_CMD,0,1);
 }
 
+void Tuyav::setNetworkStatus(Network_Status status)
+{
+  _networkStatus = status;
+}
+
+Network_Status Tuyav::getNetworkStatus()
+{
+  //mcu_get_wifi_connect_status();
+  wifi_uart_write_frame(GET_WIFI_STATUS_CMD, MCU_TX_VER, 0);
+  return _networkStatus;
+}

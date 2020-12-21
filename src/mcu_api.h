@@ -1,417 +1,527 @@
-/****************************************Copyright (c)*************************
-**                          All rights reserved (C), 2015-2020, Tuya
+/**********************************Copyright (c)**********************************
+**                     All rights reserved (C), 2015-2020, Tuya
 **
-**                                 http://www.tuya.com
+**                             http://www.tuya.com
 **
-**--------------File information-------------------------------------------------------
-**File name   : mcu_api.h
-**description : Deliver/report data processing function
-**Instructions for use : The function under this file does not need to be modified by the user.
-                         The files that the user needs to call are in the file
-**
-**
-**--------------Current revision---------------------------------------------------
-** Version : v2.5.1
-** Date    : 2018.10.27.
-** Description: 1:Turn off streaming service by default
-                2:Increase 03 protocol wifi status macro definition
-		        3:Update and modify some function comments
-
-** Version : v2.5.0
-** Date    : 2018.4.18
-** Description: 1:The protocol version is changed to 0x03
-                2:Increase WIFI module heartbeat off function
-                3:Increase weather function
-
-** Version : v2.3.8
-** Date    : 2018.1.17
-** Description: 1:Variables added volatile to prevent compiler optimization
-                2:Add #error hint
-
-** Version : v2.3.7
-** Date    : 2017.4.18
-** Description: 1:Optimize serial queue reception processing
-
-** Version : v2.3.6
-** Date    : 2016.7.21
-** Description: 1:Fix getting local time error
-                2:Add hex_to_bcd conversion function
-
-** Version : v2.3.5
-** Date    : 2016.6.3
-** Description: 1:Modify the return protocol version to 0x01
-                2:Firmware upgrade data offset is modified to 4 bytes
-
-** Version : v2.3.4
-** Date    : 2016.5.26
-** Description: 1:Optimize serial port parsing function
-                2:Optimize compiler compatibility, cancel enum type definitions
-
-** Version : v2.3.3
-** Date    : 2016.5.24
-** Description: 1:Modify mcu to get local time function
-                2:Add wifi function test
-
-** Version : v2.3.2
-** Date    : 2016.4.23
-** Description: 1:Optimize serial port data analysis
-                2:Optimize the MCU firmware upgrade process
-                3:Optimize the reporting process
-
-** Version : v2.3.1
-** Date    : 2016.4.15
-** Description: 1:Optimize serial port data analysis
-
-** Version : v2.3
-** Date    : 2016.4.14
-** Description: 1:Support MCU firmware online upgrade
-
-** Version : v2.2
-** Date    : 2016.4.11
-** Description: 1:Modify the serial port data receiving mode
-
-** Version : v2.1
-** Date    : 2016.4.8
-** Description: 1:Adding some compilers does not support function pointer compatibility options
-
-** Version : v2.0
-** Data    : 2016.3.29
-** Description: 1:Optimize code structure
-                2:Save RAM space
-**
-**-----------------------------------------------------------------------------
-******************************************************************************/
+*********************************************************************************/
+/**
+ * @file    mcu_api.h
+ * @author  Tuya Comprehensive Agreement Development Group
+ * @version v2.5.5
+ * @date    2020.6.1
+ * @brief   The functions that the user needs to actively call are in this file.
+ */
+ 
+ 
 #ifndef __MCU_API_H_
 #define __MCU_API_H_
 
 
 #ifdef MCU_API_GLOBAL
-#define MCU_API_EXTERN
+  #define MCU_API_EXTERN
 #else
-#define MCU_API_EXTERN   extern
+  #define MCU_API_EXTERN   extern
 #endif
 
-/*****************************************************************************
-  Function name          : hex_to_bcd
-  Functional description : hex to bcd
-  Input parameters       : Value_H:High Byte / Value_L:Low Byte
-  Return parameter       : bcd_value:Converted data
-*****************************************************************************/
-unsigned char hex_to_bcd(unsigned char Value_H, unsigned char Value_L);
-/*****************************************************************************
-  Function name          : my_strlen
-  Functional description : Calculate string length
-  Input parameters       : src:source address
-  Return parameter       : len:data length
-*****************************************************************************/
+/**
+ * @brief  hex to bcd
+ * @param[in] {Value_H} High Byte
+ * @param[in] {Value_L} Low Byte
+ * @return Converted data
+ */
+unsigned char hex_to_bcd(unsigned char Value_H,unsigned char Value_L);
+
+/**
+ * @brief  Calculate string length
+ * @param[in] {str} String address
+ * @return data length
+ */
 unsigned long my_strlen(unsigned char *str);
 
-/*****************************************************************************
-  Function name          : my_memset
-  Functional description : Set the first count bytes of the memory area pointed to by src to the character c
-  Input parameters       : src:source address
-                         ch:Set character
-                         count:Set the data length
-  Return parameter       : src:Source address after data processing
-*****************************************************************************/
-void *my_memset(void *src, unsigned char ch, unsigned short count);
+/**
+ * @brief  Set the first count bytes of the memory area pointed to by src to the character c
+ * @param[out] {src} source address
+ * @param[in] {ch} Set character
+ * @param[in] {count} Set the data length
+ * @return Source address after data processing
+ */
+void *my_memset(void *src,unsigned char ch,unsigned short count);
 
-/*****************************************************************************
-  Function name          : mymemcpy
-  Functional description : Memory copy
-  Input parameters       : dest:target address
-                         src:source address
-                         count:number of data copies
-  Return parameter       : src:Source address after data processing
-*****************************************************************************/
+/**
+ * @brief  Memory copy
+ * @param[out] {dest} target address
+ * @param[in] {src} source address
+ * @param[in] {count} number of data copies
+ * @return Source address after data processing
+ */
 void *my_memcpy(void *dest, const void *src, unsigned short count);
 
-/*****************************************************************************
-  Function name          : my_strcpy
-  Functional description : Memory copy
-  Input parameters       : s1:target address
-                         s2:source address
-  Return parameter       : Source address after data processing
-*****************************************************************************/
+/**
+ * @brief  String copy
+ * @param[in] {dest} target address
+ * @param[in] {src} source address
+ * @return Source address after data processing
+ */
 char *my_strcpy(char *dest, const char *src);
 
-/*****************************************************************************
-  Function name          : my_strcmp
-  Functional description : Memory copy
-  Input parameters       : s1:String 1
-                         s2:String 2
-  Return parameter       : Size comparison value，0:s1=s2; -1:s1<s2; 1:s1>s2
-*****************************************************************************/
+/**
+ * @brief  String compare
+ * @param[in] {s1} String 1
+ * @param[in] {s2} String 2
+ * @return Size comparison value
+ * -             0:s1=s2
+ * -             <0:s1<s2
+ * -             >0:s1>s2
+ */
 int my_strcmp(char *s1 , char *s2);
 
-/*****************************************************************************
-  Function name          : int_to_byte
-  Functional description : Split the int type into four bytes
-  Input parameters       : number:4 bytes of original data;
-                         value:4 bytes of data after processing is completed
-  Return parameter       :Null
-****************************************************************************/
-void int_to_byte(unsigned long number, unsigned char value[4]);
+/**
+ * @brief  Split the int type into four bytes
+ * @param[in] {number} 4 bytes of original data
+ * @param[out] {value} 4 bytes of data after processing is completed
+ * @return Null
+ */
+void int_to_byte(unsigned long number,unsigned char value[4]);
 
-/*****************************************************************************
-  Function name          : byte_to_int
-  Functional description : Combine 4 bytes into 1 32bit variable
-  Input parameters       : value:4-byte array
-  Return parameter       : number:32bit variable after the merge is completed
-****************************************************************************/
+/**
+ * @brief  Combine 4 bytes into 1 32bit variable
+ * @param[in] {value} 4 bytes of data after processing is completed
+ * @return 32bit variable after the merge is completed
+ */
 unsigned long byte_to_int(const unsigned char value[4]);
 
+/**
+ * @brief  raw type dp data upload
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @param[in] {len} data length
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_raw_update(unsigned char dpid,const unsigned char value[],unsigned short len);
+
+/**
+ * @brief  bool type dp data upload
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_bool_update(unsigned char dpid,unsigned char value);
+
+/**
+ * @brief  value type dp data upload
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_value_update(unsigned char dpid,unsigned long value);
+
+/**
+ * @brief  string type dp data upload
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @param[in] {len} data length
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_string_update(unsigned char dpid,const unsigned char value[],unsigned short len);
+
+/**
+ * @brief  enum type dp data upload
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_enum_update(unsigned char dpid,unsigned char value);
+
+/**
+ * @brief  fault type dp data upload
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_fault_update(unsigned char dpid,unsigned long value);
+
+#ifdef MCU_DP_UPLOAD_SYN
+/**
+ * @brief  raw type dp data upload syn
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @param[in] {len} data length
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_raw_update_syn(unsigned char dpid,const unsigned char value[],unsigned short len);
+
+/**
+ * @brief  bool type dp data upload syn
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_bool_update_syn(unsigned char dpid,unsigned char value);
+
+/**
+ * @brief  value type dp data upload syn
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_value_update_syn(unsigned char dpid,unsigned long value);
+
+/**
+ * @brief  string type dp data upload syn
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @param[in] {len} data length
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_string_update_syn(unsigned char dpid,const unsigned char value[],unsigned short len);
+
+/**
+ * @brief  enum type dp data upload syn
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_enum_update_syn(unsigned char dpid,unsigned char value);
+
+/**
+ * @brief  fault type dp data upload syn
+ * @param[in] {dpid} id number
+ * @param[in] {value} Current dp value pointer
+ * @return Null
+ * @note   Null
+ */
+unsigned char mcu_dp_fault_update_syn(unsigned char dpid,unsigned long value);
+#endif
+
+/**
+ * @brief  mcu gets bool type to send dp value
+ * @param[in] {value} dp data buffer address
+ * @param[in] {len} data length
+ * @return current dp value
+ * @note   Null
+ */
+unsigned char mcu_get_dp_download_bool(const unsigned char value[],unsigned short len);
+
+/**
+ * @brief  mcu gets enum type to send dp value
+ * @param[in] {value} dp data buffer address
+ * @param[in] {len} data length
+ * @return current dp value
+ * @note   Null
+ */
+unsigned long mcu_get_dp_download_value(const unsigned char value[],unsigned short len);
+
+/**
+ * @brief  mcu gets value type to send dp value
+ * @param[in] {value} dp data buffer address
+ * @param[in] {len} data length
+ * @return current dp value
+ * @note   Null
+ */
+unsigned char mcu_get_dp_download_enum(const unsigned char value[],unsigned short len);
+
+/**
+ * @brief  Receive data processing
+ * @param[in] {value} UART receives byte data
+ * @return Null
+ * @note   Call this function in the MCU serial receive function and pass the received data as a parameter.
+ */
+void uart_receive_input(unsigned char value);
+
+/**
+ * @brief  Wifi serial port processing service
+ * @param  Null
+ * @return Null
+ * @note   Call this function in the MCU main function while loop
+ */
+void wifi_uart_service(void);
+
+/**
+ * @brief  Protocol serial port initialization function
+ * @param  Null
+ * @return Null
+ * @note   This function must be called in the MCU initialization code
+ */
+void wifi_protocol_init(void);
+
 #ifndef WIFI_CONTROL_SELF_MODE
-/*****************************************************************************
-  Function name          : mcu_get_reset_wifi_flag
-  Functional description : MCU gets reset wifi success flag
-  Input parameters       : Null
-  Return parameter       : Reset flag:RESET_WIFI_ERROR:failure/RESET_WIFI_SUCCESS:success
-  Instructions for use   : 1:The MCU actively calls mcu_reset_wifi() and calls this function to get the reset state.
-                         2:If the module is in self-processing mode, the MCU does not need to call this function.
-*****************************************************************************/
+/**
+ * @brief  MCU gets reset wifi success flag
+ * @param  Null
+ * @return Reset flag
+ * -           0(RESET_WIFI_ERROR):failure
+ * -           1(RESET_WIFI_SUCCESS):success
+ * @note   1:The MCU actively calls mcu_reset_wifi() and calls this function to get the reset state.
+ *         2:If the module is in self-processing mode, the MCU does not need to call this function.
+ */
 unsigned char mcu_get_reset_wifi_flag(void);
-/*****************************************************************************
-  Function name          : reset_wifi
-  Functional description : MCU actively resets wifi working mode
-  Input parameters       : Null
-  Return parameter       : Null
-  Instructions for use   : 1:The MCU actively calls to obtain whether the reset wifi is successful through the mcu_get_reset_wifi_flag() function.
-                         2:If the module is in self-processing mode, the MCU does not need to call this function.
-*****************************************************************************/
+
+/**
+ * @brief  MCU actively resets wifi working mode
+ * @param  Null
+ * @return Null
+ * @note   1:The MCU actively calls to obtain whether the reset wifi is successful through the mcu_get_reset_wifi_flag() function.
+ *         2:If the module is in self-processing mode, the MCU does not need to call this function.
+ */
 void mcu_reset_wifi(void);
-/*****************************************************************************
-  Function name          : mcu_get_wifimode_flag
-  Functional description : Get set wifi status success flag
-  Input parameters       : Null
-  Return parameter       : SET_WIFICONFIG_ERROR:failure /SET_WIFICONFIG_SUCCESS:success
-  Instructions for use   : 1:The MCU actively calls mcu_set_wifi_mode() and calls this function to get the reset state.
-                         2:If the module is in self-processing mode, the MCU does not need to call this function.
-*****************************************************************************/
+
+/**
+ * @brief  Get set wifi status success flag
+ * @param  Null
+ * @return wifimode flag
+ * -           0(SET_WIFICONFIG_ERROR):failure
+ * -           1(SET_WIFICONFIG_SUCCESS):success
+ * @note   1:The MCU actively calls to obtain whether the reset wifi is successful through the mcu_get_reset_wifi_flag() function.
+ *         2:If the module is in self-processing mode, the MCU does not need to call this function.
+ */
 unsigned char mcu_get_wifimode_flag(void);
-/*****************************************************************************
-  Function name          : mcu_set_wifi_mode
-  Functional description : MCU set wifi working mode
-  Input parameters       : mode:
-                         SMART_CONFIG:enter smartconfig mode
-                         AP_CONFIG:enter AP mode
-  Return parameter       : Null
-  Instructions for use   : 1:MCU active call
-                         2:After success, it can be judged whether set_wifi_config_state is TRUE;
-                           TRUE means successful setting of wifi working mode
-                         3:If the module is in self-processing mode, the MCU does not need to call this function.
-*****************************************************************************/
+
+/**
+ * @brief  MCU set wifi working mode
+ * @param[in] {mode} enter mode
+ * @ref        0(SMART_CONFIG):enter smartconfig mode
+ * @ref        1(AP_CONFIG):enter AP mode
+ * @return Null
+ * @note   1:MCU active call
+ *         2:After success, it can be judged whether set_wifi_config_state is TRUE; TRUE means successful setting of wifi working mode
+ *         3:If the module is in self-processing mode, the MCU does not need to call this function.
+ */
 void mcu_set_wifi_mode(unsigned char mode);
-/*****************************************************************************
-  Function name          : mcu_get_wifi_work_state
-  Functional description : The MCU actively obtains the current wifi working status.
-  Input parameters       : Null
-  Return parameter       : WIFI_WORK_SATE_E:
-                         SMART_CONFIG_STATE:smartconfig config status
-                         AP_STATE:AP config status
-                         WIFI_NOT_CONNECTED:WIFI configuration succeeded but not connected to the router
-                         WIFI_CONNECTED:WIFI configuration is successful and connected to the router
-                         WIFI_CONN_CLOUD:WIFI is connected to the cloud server
-                         WIFI_LOW_POWER:WIFI is in low power mode
-  Instructions for use   : Null
-*****************************************************************************/
+
+/**
+ * @brief  The MCU actively obtains the current wifi working status.
+ * @param  Null
+ * @return wifi work state
+ * -          SMART_CONFIG_STATE:smartconfig config status
+ * -          AP_STATE:AP config status
+ * -          WIFI_NOT_CONNECTED:WIFI configuration succeeded but not connected to the router
+ * -          WIFI_CONNECTED:WIFI configuration is successful and connected to the router
+ * -          WIFI_CONN_CLOUD:WIFI is connected to the cloud server
+ * -          WIFI_LOW_POWER:WIFI is in low power mode
+ * -          SMART_AND_AP_STATE: WIFI smartconfig&AP mode
+ * @note   1:If the module is in self-processing mode, the MCU does not need to call this function.
+ */
 unsigned char mcu_get_wifi_work_state(void);
 #endif
 
+#ifdef SUPPORT_GREEN_TIME
+/**
+ * @brief  MCU gets green time
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void mcu_get_green_time(void);
+#endif
+
 #ifdef SUPPORT_MCU_RTC_CHECK
-/*****************************************************************************
-  Function name          : mcu_get_system_time
-  Functional description : MCU gets system time for proofreading local clock
-  Input parameters       : Null
-  Return parameter       : Null
-  Instructions for use   :The rtc clock is checked in the mcu_write_rtctime function after the MCU is actively called.
-*****************************************************************************/
+/**
+ * @brief  MCU gets system time for proofreading local clock
+ * @param  Null
+ * @return Null
+ * @note   The rtc clock is checked in the mcu_write_rtctime function after the MCU is actively called.
+ */
 void mcu_get_system_time(void);
 #endif
 
 #ifdef WIFI_TEST_ENABLE
-/*****************************************************************************
-  Return parameter       : mcu_start_wifitest
-  Functional description : Mcu initiated wifi function test
-  Input parameters       : Null
-  Return parameter       : Null
-  Instructions for use   :The MCU needs to call this function by itself.
-*****************************************************************************/
+/**
+ * @brief  Mcu initiated wifi function test
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
 void mcu_start_wifitest(void);
 #endif
 
 #ifdef WIFI_HEARTSTOP_ENABLE
-/*****************************************************************************
-  Return parameter       : wifi_heart_stop
-  Functional description : Notify the WIFI module to turn off the heartbeat
-  Input parameters       : Null
-  Return parameter       : Null
-*****************************************************************************/
+/**
+ * @brief  Notify the WIFI module to turn off the heartbeat
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
 void wifi_heart_stop(void);
 #endif
 
-#ifdef WIFI_STREAM_ENABLE
-/*****************************************************************************
-  Function name          : stream_open
-  Functional description : Turn on streaming service
-  Input parameters       : Null
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char stream_open(void);
-
-/*****************************************************************************
-  Function name          : stream_start
-  Functional description : Turn on streaming data transmission
-  Input parameters       : id:Stream service identifier
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char stream_start(unsigned int id);
-
-/*****************************************************************************
-  Function name          : stream_trans
-  Functional description : Stream data transmission
-  Input parameters       : id:Stream service identifier;
-                         offset:Offset;
-                         buffer:Data address;
-                         buf_len:Data length
-  Return parameter       : Null
-*****************************************************************************/
-
-unsigned char stream_trans(unsigned int id, unsigned char offset, unsigned char *buffer, unsigned long buf_len);
-
-/*****************************************************************************
-  Function name          : stream_close
-  Functional description : End stream data transfer
-  Input parameters       : id:Stream service identifier;offset:Offset
-  Return parameter       : Null
-*****************************************************************************/
-
-unsigned char stream_stop(unsigned char id, unsigned long offset);
+#ifdef GET_WIFI_STATUS_ENABLE
+/**
+ * @brief  Get the current wifi connection status
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void mcu_get_wifi_connect_status(void);
 #endif
 
-/*****************************************************************************
-  Function name          : mcu_dp_raw_update
-  Functional description : raw type dp data upload
-  Input parameters       : dpid:id number
-                         value:Current dp value pointer
-                         len:data length
-  Return parameter       : Null
-*****************************************************************************/
+#ifdef WIFI_STREAM_ENABLE
+/**
+ * @brief  Stream service delivery
+ * @param[in] {id} ID number
+ * @param[in] {buffer} The address at which the packet is sent
+ * @param[in] {buf_len} Length of packet sent
+ * @return Stream_trans result
+ * -           0(ERROR): failure
+ * -           1(SUCCESS): success
+ * @note   MCU needs to implement this function by itself
+ */
+unsigned char stream_trans_send(unsigned int id, unsigned char *buffer, unsigned long buf_len);
 
-unsigned char mcu_dp_raw_update(unsigned char dpid, const unsigned char value[], unsigned short len);
+/**
+ * @brief  Multi-map stream service delivery
+ * @param[in] {id} Map ID number
+ * @param[in] {sub_id} Submap ID number
+ * @param[in] {sub_id_pro_mode} Map ID data processing method
+ * @ref       0x00: Continue to accumulate
+ * @ref       0x01: Clear the data uploaded by the submap ID number
+ * @param[in] {buffer} The address at which the packet is sent
+ * @param[in] {buf_len} Length of packet sent
+ * @return Stream_trans result
+ * -           0(ERROR): failure
+ * -           1(SUCCESS): success
+ * @note   MCU needs to implement this function by itself
+ */
+unsigned char maps_stream_trans_send(unsigned int id, unsigned char sub_id, unsigned char sub_id_pro_mode, unsigned char *buffer, unsigned long buf_len);
+#endif
 
-/*****************************************************************************
-  Function name          : mcu_dp_bool_update
-  Functional description : bool type dp data upload
-  Input parameters       : dpid:id number
-                         value:current dp value
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char mcu_dp_bool_update(unsigned char dpid, unsigned char value);
+#ifdef WIFI_CONNECT_TEST_ENABLE
+/**
+ * @brief  mcu initiate wifi function test (connection specified route)
+ * @param[in] {ssid_buf} Address to hold the router name string data (ssid length up to 32 bytes)
+ * @param[in] {passwd_buffer} The address where the router name string data is stored (passwd is up to 64 bytes long)
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void mcu_start_connect_wifitest(unsigned char *ssid_buf,unsigned char *passwd_buffer);
+#endif
 
-/*****************************************************************************
-  Function name          : mcu_dp_value_update
-  Functional description : value type dp data upload
-  Input parameters       : dpid:id number
-                         value:current dp value
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char mcu_dp_value_update(unsigned char dpid, unsigned long value);
+#ifdef GET_MODULE_MAC_ENABLE
+/**
+ * @brief  Get module MAC
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void mcu_get_module_mac(void);
+#endif
 
-/*****************************************************************************
-  Function name          : mcu_dp_string_update
-  Functional description : rstring type dp data upload
-  Input parameters       : dpid:id number
-                         value:current dp value pointer
-                         len:data length
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char mcu_dp_string_update(unsigned char dpid, const unsigned char value[], unsigned short len);
+#ifdef IR_TX_RX_TEST_ENABLE
+/**
+ * @brief  MCU initiated infrared into the transceiver production test
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void mcu_start_ir_test(void);
+#endif
 
-/*****************************************************************************
-  Function name          : mcu_dp_enum_update
-  Functional description : enum type dp data upload
-  Input parameters       : dpid:id number
-                         value:current dp value
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char mcu_dp_enum_update(unsigned char dpid, unsigned char value);
+#ifdef MODULE_EXPANDING_SERVICE_ENABLE
+/**
+ * @brief  Open the module time service notification
+ * @param[in] {time_type} Type of time
+ * @ref       0x00: Green time
+ * @ref       0x01: Local time
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void open_module_time_serve(unsigned char time_type);
 
-/*****************************************************************************
-  Function name          : mcu_dp_fault_update
-  Functional description : fault type dp data upload
-  Input parameters       : dpid:id number
-                         value:current dp value
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char mcu_dp_fault_update(unsigned char dpid, unsigned long value);
+/**
+ * @brief  Actively request weather service data
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void request_weather_serve(void);
 
-/*****************************************************************************
-  Function name          : mcu_get_dp_download_bool
-  Functional description : mcu gets bool type to send dp value
-  Input parameters       : value:dp data buffer address
-                         length:dp data length
-  Return parameter       : bool:current dp value
-*****************************************************************************/
+/**
+ * @brief  Open module reset status notification
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void open_module_reset_state_serve(void);
+#endif
 
-unsigned char mcu_get_dp_download_bool(const unsigned char value[], unsigned short len);
+#ifdef BLE_RELATED_FUNCTION_ENABLE
+/**
+ * @brief  mcu initiates Bluetooth functional test (scanning specified Bluetooth beacons)
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void mcu_start_BLE_test(void);
+#endif
 
-/*****************************************************************************
-  Function name          : mcu_get_dp_download_enum
-  Functional description : mcu get enum type to send dp value
-  Input parameters       : value:dp data buffer address
-                         length:dp data length
-  Return parameter       : enum:current dp value
-*****************************************************************************/
-unsigned long mcu_get_dp_download_value(const unsigned char value[], unsigned short len);
+#ifdef VOICE_MODULE_PROTOCOL_ENABLE
+/**
+ * @brief  Gets the voice status code
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void get_voice_state(void);
 
-/*****************************************************************************
-  Function name          : mcu_get_dp_download_value
-  Functional description : Mcu gets the value type to send dp value
-  Input parameters       : value:dp data buffer address
-                         length:dp data length
-  Return parameter       : value:current dp value
-*****************************************************************************/
+/**
+ * @brief  MIC mute setting
+ * @param[in] {set_val} Mute setting value
+ * @ref       0x00: mic on
+ * @ref       0x01: mic mute
+ * @ref       0xA0: Query the mute status
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void set_voice_MIC_silence(unsigned char set_val);
 
-unsigned char mcu_get_dp_download_enum(const unsigned char value[], unsigned short len);
+/**
+ * @brief  Speaker volume setting
+ * @param[in] {set_val} Volume set value
+ * @ref       0~10: Volume range
+ * @ref       0xA0: Query volume value
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void set_speaker_voice(unsigned char set_val);
 
-/*****************************************************************************
-  Function name          : uart_receive_input
-  Functional description : Receive data processing
-  Input parameters       : value:Serial port receives byte data
-  Return parameter       : Null
-  Instructions for use   :Call this function in the MCU serial receive function and pass the received data as a parameter.
-*****************************************************************************/
+/**
+ * @brief  Audio production test
+ * @param[in] {set_val} Audio production value
+ * @ref       0x00: Turn off audio production test
+ * @ref       0x01: mic1 audio loop test
+ * @ref       0x02: mic2 audio loop test
+ * @ref       0xA0: Query the current audio production test status
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void voice_test(unsigned char test_val);
 
-void uart_receive_input(unsigned char value);
+/**
+ * @brief  Wake up test
+ * @param  Null
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void voice_awaken_test(void);
 
-/*****************************************************************************
-  Function name          : wifi_uart_service
-  Functional description : Wifi serial port processing service
-  Input parameters       : Null
-  Return parameter       : Null
-  Instructions for use   :Call this function in the MCU main function while loop
-*****************************************************************************/
-
-void wifi_uart_service(void);
-
-/*****************************************************************************
-  Function name          : wifi_protocol_init
-  Functional description : Protocol serial port initialization function
-  Input parameters       : Null
-  Return parameter       : Null
-  Instructions for use   :This function must be called in the MCU initialization code
-*****************************************************************************/
-
-void wifi_protocol_init(void);
-/*****************************************************************************
-  Function name          : uart_transmit_output
-  Functional description : Send data processing
-  Input parameters       : value:Serial port receives byte data
-  Return parameter       : Null
-  Instructions for use   : Please fill in the MCU serial port send function into the function,
-                         and pass the received data as a parameter to the serial port send function.
-*****************************************************************************/
-void uart_transmit_output(unsigned char value);
+/**
+ * @brief  Voice module MCU function settings
+ * @param[in] {play} Play/pause function  1(play) / 0(pause)
+ * @param[in] {bt_play} Bluetooth switch function  1(on) / 0(off)
+ * @return Null
+ * @note   The MCU needs to call this function by itself.
+ */
+void voice_mcu_fun_set(unsigned char play, unsigned char bt_play);
+#endif
 
 #endif

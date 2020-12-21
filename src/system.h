@@ -1,99 +1,32 @@
-/****************************************Copyright (c)*************************
-**                            All rights reserved (C), 2015-2020, Tuya
+/**********************************Copyright (c)**********************************
+**                     All rights reserved (C), 2015-2020, Tuya
 **
-**                                 http://www.tuya.com
+**                             http://www.tuya.com
 **
-**--------------File information-------------------------------------------------------
-**File name   : system.h
-**Description : Wifi data processing function
-**Instructions for use : Users don't need to care about the file implementation content
-**
-**
-**--------------Current revision---------------------------------------------------
-** Version : v2.5.1
-** Date    : 2018.10.27.
-** Description: 1:Turn off streaming service by default
-                2:Increase 03 protocol wifi status macro definition
-		        3:Update and modify some function comments
+*********************************************************************************/
+/**
+ * @file    system.h
+ * @author  Tuya Comprehensive Agreement Development Group
+ * @version v2.5.5
+ * @date    2020.6.1
+ * @brief   UART data processing.The user does not need to care about what the file implements.
+ */
+  
 
-** Version : v2.5.0
-** Date    : 2018.4.18
-** Description: 1:The protocol version is changed to 0x03
-                2:Increase WIFI module heartbeat off function
-                3:Increase weather function
-
-** Version : v2.3.8
-** Date    : 2018.1.17
-** Description: 1:Variables added volatile to prevent compiler optimization
-                2:Add #error hint
-
-** Version : v2.3.7
-** Date    : 2017.4.18
-** Description: 1:Optimize serial queue reception processing
-
-** Version : v2.3.6
-** Date    : 2016.7.21
-** Description: 1:Fix getting local time error
-                2:Add hex_to_bcd conversion function
-
-** Version : v2.3.5
-** Date    : 2016.6.3
-** Description: 1:Modify the return protocol version to 0x01
-                2:Firmware upgrade data offset is modified to 4 bytes
-
-** Version : v2.3.4
-** Date    : 2016.5.26
-** Description: 1:Optimize serial port parsing function
-                2:Optimize compiler compatibility, cancel enum type definitions
-
-** Version : v2.3.3
-** Date    : 2016.5.24
-** Description: 1:Modify mcu to get local time function
-                2:Add wifi function test
-
-** Version : v2.3.2
-** Date    : 2016.4.23
-** Description: 1:Optimize serial port data analysis
-                2:Optimize the MCU firmware upgrade process
-                3:Optimize the reporting process
-
-** Version : v2.3.1
-** Date    : 2016.4.15
-** Description: 1:Optimize serial port data analysis
-
-** Version : v2.3
-** Date    : 2016.4.14
-** Description: 1:Support MCU firmware online upgrade
-
-** Version : v2.2
-** Date    : 2016.4.11
-** Description: 1:Modify the serial port data receiving mode
-
-** Version : v2.1
-** Date    : 2016.4.8
-** Description: 1:Adding some compilers does not support function pointer compatibility options
-
-** Version : v2.0
-** Data    : 2016.3.29
-** Description: 1:Optimize code structure
-                2:Save RAM space
-**
-**-----------------------------------------------------------------------------
-******************************************************************************/
 #ifndef __SYSTEM_H_
 #define __SYSTEM_H_
 
 #ifdef SYSTEM_GLOBAL
-#define SYSTEM_EXTERN
+  #define SYSTEM_EXTERN
 #else
-#define SYSTEM_EXTERN   extern
+  #define SYSTEM_EXTERN   extern
 #endif
 
 //=============================================================================
 //Byte order of the frame
 //=============================================================================
 #define         HEAD_FIRST                      0
-#define         HEAD_SECOND                     1
+#define         HEAD_SECOND                     1        
 #define         PROTOCOL_VERSION                2
 #define         FRAME_TYPE                      3
 #define         LENGTH_HIGH                     4
@@ -112,7 +45,6 @@
 #define         DATA_QUERT_CMD                  6                               //Order send
 #define         STATE_UPLOAD_CMD                7                               //Status upload	 
 #define         STATE_QUERY_CMD                 8                               //Status query   
-#define         UPDATE_QUERY_CMD                9                               //Upgrade query
 #define         UPDATE_START_CMD                0x0a                            //Upgrade start
 #define         UPDATE_TRANS_CMD                0x0b                            //Upgrade transfer
 #define         GET_ONLINE_TIME_CMD             0x0c                            //Get system time (Greenwich Mean Time)
@@ -121,28 +53,43 @@
 #define         GET_LOCAL_TIME_CMD              0x1c                            //Get local time
 #define         WEATHER_OPEN_CMD                0x20                            //Turn on the weather          
 #define         WEATHER_DATA_CMD                0x21                            //Weather data
+#define         STATE_UPLOAD_SYN_CMD            0x22                            //Status upload (synchronization)
+#define         STATE_UPLOAD_SYN_RECV_CMD       0x23                            //Status upload results(synchronization)
 #define         HEAT_BEAT_STOP                  0x25                            //Turn off the WIFI module heartbeat
-#define         STREAM_OPEN_CMD                 0x26                            //Turn on streaming service
-#define         STREAM_START_CMD                0x27                            //Turn on streaming data transmission
 #define         STREAM_TRANS_CMD                0x28                            //Stream data transmission
-#define         STREAM_STOP_CMD                 0x29                            //End stream data transfer
+#define         GET_WIFI_STATUS_CMD             0x2b                            //Gets the wifi networking status
+#define         WIFI_CONNECT_TEST_CMD           0x2c                            //Wifi function test(connection designated route)
+#define         GET_MAC_CMD                     0x2d                            //Get module mac
+#define         GET_IR_STATUS_CMD               0x2e                            //IR status notification
+#define         IR_TX_RX_TEST_CMD               0x2f                            //IR into send-receive test
+#define         MAPS_STREAM_TRANS_CMD           0x30                            //streams trans(Support for multiple maps)
+#define         FILE_DOWNLOAD_START_CMD         0x31                            //File download startup
+#define         FILE_DOWNLOAD_TRANS_CMD         0x32                            //File download data transfer
+#define         MODULE_EXTEND_FUN_CMD           0x34                            //Open the module time service notification
+#define         BLE_TEST_CMD                    0x35                            //Bluetooth functional test（Scan designated bluetooth beacon）
+#define         GET_VOICE_STATE_CMD             0x60                            //Gets the voice status code
+#define         MIC_SILENCE_CMD                 0x61                            //MIC mute Settings
+#define         SET_SPEAKER_VOLUME_CMD          0x62                            //speaker volume set
+#define         VOICE_TEST_CMD                  0x63                            //Audio production test
+#define         VOICE_AWAKEN_TEST_CMD           0x64                            //Wake up production test
+#define         VOICE_EXTEND_FUN_CMD            0x65                            //Voice module extension function
 
 
 //=============================================================================
-#define VERSION                 0x00                                            //Protocol version number
+#define MCU_RX_VER              0x00                                            //Module send frame protocol version number
+#define MCU_TX_VER              0x03                                            //MCU send frame protocol version number(default)
 #define PROTOCOL_HEAD           0x07                                            //Fixed protocol header length
-#define FIRM_UPDATA_SIZE        256                                            //Upgrade package size
-#define FRAME_FIRST             0x55
-#define FRAME_SECOND            0xaa
-//=============================================================================
-SYSTEM_EXTERN volatile unsigned char wifi_queue_buf[PROTOCOL_HEAD + WIFI_UART_QUEUE_LMT];  //Serial queue buffer
+#define FRAME_FIRST             0x55                                            //Frame header first byte
+#define FRAME_SECOND            0xaa                                            //Frame header second byte
+//============================================================================= 
+SYSTEM_EXTERN volatile unsigned char wifi_data_process_buf[PROTOCOL_HEAD + WIFI_DATA_PROCESS_LMT];     //Serial data processing buffer
 SYSTEM_EXTERN volatile unsigned char wifi_uart_rx_buf[PROTOCOL_HEAD + WIFI_UART_RECV_BUF_LMT];         //Serial receive buffer
 SYSTEM_EXTERN volatile unsigned char wifi_uart_tx_buf[PROTOCOL_HEAD + WIFIR_UART_SEND_BUF_LMT];        //Serial port send buffer
 //
-SYSTEM_EXTERN volatile unsigned char *queue_in;
-SYSTEM_EXTERN volatile unsigned char *queue_out;
+SYSTEM_EXTERN volatile unsigned char *rx_buf_in;
+SYSTEM_EXTERN volatile unsigned char *rx_buf_out;
 
-SYSTEM_EXTERN volatile unsigned char stop_update_flag;
+SYSTEM_EXTERN volatile unsigned char stop_update_flag;                                                 //ENABLE:Stop all data uploads   DISABLE:Restore all data uploads
 
 #ifndef WIFI_CONTROL_SELF_MODE
 SYSTEM_EXTERN volatile unsigned char reset_wifi_flag;                                                  //Reset wifi flag (TRUE: successful / FALSE: failed)
@@ -152,67 +99,93 @@ SYSTEM_EXTERN volatile unsigned char wifi_work_state;                           
 
 #ifdef WIFI_STREAM_ENABLE
 SYSTEM_EXTERN volatile char stream_status;                                                             //Stream service delivery return status
+SYSTEM_EXTERN volatile char maps_stream_status;                                                        //Many maps stream service delivery return status
 #endif
 
-/*****************************************************************************
-  Function name          : set_wifi_uart_byte
-  Functional description : Write wifi_uart byte
-  Input parameters       : dest: the actual address of the buffer area;
-                         byte: write byte value
-  Return parameter       : Total length after writing is completed
-*****************************************************************************/
+/**
+ * @brief  Write wifi uart bytes
+ * @param[in] {dest} UART send buffer starts writing the address
+ * @param[in] {byte} Write byte value
+ * @return UART send buffer ends write address
+ */
 unsigned short set_wifi_uart_byte(unsigned short dest, unsigned char byte);
 
-/*****************************************************************************
-  Function name          : set_wifi_uart_buffer
-  Functional description : 写wifi_uart_buffer
-  Input parameters       : dest:target address
-           src:source address
-           len:Data length
-  Return parameter       : Null
-*****************************************************************************/
-unsigned short set_wifi_uart_buffer(unsigned short dest, unsigned char *src, unsigned short len);
+/**
+ * @brief  Write wifi uart buffer
+ * @param[in] {dest} UART send buffer starts writing the address
+ * @param[in] {src} source address
+ * @param[in] {len} Data length
+ * @return UART send buffer ends write address
+ */
+unsigned short set_wifi_uart_buffer(unsigned short dest, const unsigned char *src, unsigned short len);
 
-/*****************************************************************************
-  Function name          : wifi_uart_write_frame
-  Functional description : Send a frame of data to the wifi serial port
-  Input parameters       : fr_type:Frame type
-           len:Data length
-  Return parameter       : Null
-*****************************************************************************/
-void wifi_uart_write_frame(unsigned char fr_type, unsigned short len);
-
-/*****************************************************************************
-  Function name          : get_check_sum
-  Functional description : Calculate checksum
-  Input parameters       : pack:Data source pointer
-                         pack_len:Need to calculate the length of the checksum data
-  Return parameter       : checksum
-*****************************************************************************/
+/**
+ * @brief  Calculate checksum
+ * @param[in] {pack} Data source pointer
+ * @param[in] {pack_len} Need to calculate the length of the checksum data
+ * @return checksum
+ */
 unsigned char get_check_sum(unsigned char *pack, unsigned short pack_len);
 
-/*****************************************************************************
-  Function name          : data_handle
-  Functional description : Data frame processing
-  Input parameters       : offset:Data start position
-  Return parameter       : Null
-*****************************************************************************/
+/**
+ * @brief  Send a frame of data to the wifi serial port
+ * @param[in] {fr_type} Frame type
+ * @param[in] {fr_ver} Frame version
+ * @param[in] {len} Data length
+ * @return Null
+ */
+void wifi_uart_write_frame(unsigned char fr_type, unsigned char fr_ver, unsigned short len);
+
+#ifdef WIFI_STREAM_ENABLE
+/**
+ * @brief  Stream data transmission
+ * @param[in] {id} Stream service identifier
+ * @param[in] {offset} Offset
+ * @param[in] {buffer} Data address
+ * @param[in] {buf_len} Data length
+ * @return Null
+ * @note   Null
+ */
+unsigned char stream_trans(unsigned short id, unsigned int offset, unsigned char *buffer, unsigned short buf_len);
+
+/**
+ * @brief  Stream data transmission
+ * @param[in] {pro_ver} Map service agreement version
+ * @param[in] {id} Map stream service session id
+ * @param[in] {sub_id} submap id
+ * @param[in] {sub_id_pro_mode} Sub-map ID data processing method
+ * @ref           0x00:Continue to accumulate
+ * @ref           0x00:Clear uploaded data
+ * @param[in] {offset} Offset
+ * @param[in] {buffer} Data address
+ * @param[in] {buf_len} Data length
+ * @return Null
+ * @note   Null
+ */
+unsigned char maps_stream_trans(unsigned char pro_ver, unsigned short id, unsigned char sub_id, unsigned char sub_id_pro_mode, 
+                                unsigned int offset, unsigned char *buffer, unsigned short buf_len);
+#endif
+
+/**
+ * @brief  Data frame processing
+ * @param[in] {offset} Data start position
+ * @return Null
+ */
 void data_handle(unsigned short offset);
 
-/*****************************************************************************
-  Function name          : get_queue_total_data
-  Functional description : Read data in the queue
-  Input parameters       : Null
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char get_queue_total_data(void);
+/**
+ * @brief  Determines whether there is data in the uart receive buffer
+ * @param  Null
+ * @return Is there data
+ */
+unsigned char with_data_rxbuff(void);
 
-/*****************************************************************************
-  Function name          : Queue_Read_Byte
-  Functional description : Read queue 1 byte data
-  Input parameters       : Null
-  Return parameter       : Null
-*****************************************************************************/
-unsigned char Queue_Read_Byte(void);
-
+/**
+ * @brief  Read uart receive buffer 1 byte data
+ * @param  Null
+ * @return Read the data
+ */
+unsigned char take_byte_rxbuff(void);
 #endif
+  
+  
