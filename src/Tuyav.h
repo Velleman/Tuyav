@@ -33,6 +33,25 @@ enum Network_Status
   AP_AND_SMARTCONFIG
 };
 
+struct weather_info{
+  int Temperature;
+  int Humidity;
+  int PM25;
+  char Condition[25];
+  int Pressure;
+  int RealFeel;
+  int UVIndex;
+  char WindDirection[10];
+  int WindSpeed;
+  char SunSet[50];
+  char SunRise[50];
+  int AirQuality;
+  int PM10;
+  int O3;
+  int NO2;
+  int CO;
+};
+
 class Tuyav
 {
 public:
@@ -67,10 +86,19 @@ public:
   int ANALOG_OUT[3];
   bool DIGITAL_OUT[5];
   void setDebug(bool enabled);
+  bool getDebug();
+  bool getPasstrough();
+  void setPasstrough(bool pass);
   void getTime();
   int newTime[8];
   void setNetworkStatus(Network_Status status);
   Network_Status getNetworkStatus();
+  void startWeather();
+  void setWeatherParam(char * name,int param);
+  void setWeatherParam(char * name,const unsigned char* param);
+  void setWeatherReceived(bool received);
+  weather_info getWeatherInfo();
+  bool WeatherReceived();
 private:
   Network_Status _networkStatus;
   DigitalInput _digitalInputs[3];
@@ -95,6 +123,8 @@ private:
   int _TuyaPinID;
   int _value;
   bool _debug;
+  bool _passthrough = false;
+  bool _weatherReceived = false;
+  weather_info _weather;
 };
-
 #endif

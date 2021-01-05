@@ -137,10 +137,10 @@ Ser_handle two user handlers to achieve display and other code
 #define         WEATHER_ENABLE                  //Turn on weather function
 #ifdef          WEATHER_ENABLE
 /*  Tunable in the weather_choose array in the protocol.c file, and then write the number of open service types to this macro definition  */
-#define         WEATHER_CHOOSE_CNT              4   //The number of required weather service types selected
+#define         WEATHER_CHOOSE_CNT              17   //The number of required weather service types selected
 /*  When the weather service is turned on, you can set this macro definition to select the number of days for the weather forecast, 
     with 1 representing the weather for the day (the forecast is not required to be set to 1), up to 7 days (cannot be set to 0 or greater than 7).  */
-#define         WEATHER_FORECAST_DAYS_NUM       2   //Set the number of days for the weather forecast
+#define         WEATHER_FORECAST_DAYS_NUM       0   //Set the number of days for the weather forecast
 #endif
 
 /******************************************************************************

@@ -4,13 +4,13 @@
 #include "mcu_api.h"
 
 //Tuyav constructor: Set hardwareSerial
-Tuyav::Tuyav(HardwareSerial* serial)
+Tuyav::Tuyav(HardwareSerial *serial)
 {
   _tuyaSerial = TuyaSerial(serial);
 }
 
 //Tuyav constructor: Set SoftwareSerial
-Tuyav::Tuyav(SoftwareSerial* serial)
+Tuyav::Tuyav(SoftwareSerial *serial)
 {
   _tuyaSerial = TuyaSerial(serial);
 }
@@ -67,17 +67,22 @@ TuyaSerial Tuyav::get_tuyaSerial()
   return _tuyaSerial;
 }
 
+bool Tuyav::getDebug()
+{
+  return _debug;
+}
+
 //Tuya setup Function
 void Tuyav::initialize()
 {
-  if(_debug)
+  if (_debug)
   {
     Serial.begin(9600);
   }
 
   //" Please add wifi_protocol_init() in the main function to complete the wifi protocol initialization."
   wifi_protocol_init();
-  
+
   digitalInputInit();  //Call digitalInputInit() Function
   digitalOutputInit(); //Call digitalOutputInit() Function
   analogOutputInit();  //Call analogOutputInit() Function
@@ -86,27 +91,34 @@ void Tuyav::initialize()
 
 void Tuyav::userValueInit()
 {
-  for(int i=0;i<9;i++)
+  for (int i = 0; i < 9; i++)
   {
-    _userValues[i].setID(AV1+i);
+    _userValues[i].setID(AV1 + i);
   }
 }
 
 //Tuya Update Function
 void Tuyav::tuyaUpdate()
 {
-  
+
   while (_tuyaSerial.available())
   {
     char c = _tuyaSerial.read();
-	if(_debug)
-	{
-		Serial.println(c,HEX);
-	}
-    //"Please call uart_receive_input(value) in the serial port receive interrupt. The serial port data is processed by MCU_SDK. The user should not process it separately."
-    uart_receive_input(c);
+    if (_debug)
+    {
+      Serial.println(c, HEX);
+    }
+    if (_passthrough)
+    {
+      Serial.print(c);
+    }
+    else
+    {
+      //"Please call uart_receive_input(value) in the serial port receive interrupt. The serial port data is processed by MCU_SDK. The user should not process it separately."
+      uart_receive_input(c);
+    }
   }
-	wifi_uart_service();
+  wifi_uart_service();
   unsigned long currentTime = millis();
 
   //check if the last time is more than 2000ms ago
@@ -150,7 +162,6 @@ void Tuyav::analogOutputInit()
   }
 }
 
-
 //Update each digital inputs
 void Tuyav::digitalUpdate()
 {
@@ -167,10 +178,9 @@ void Tuyav::digitalUpdate()
 
 void Tuyav::userValueUpdate()
 {
-  for(int i =0;i<9;i++)
+  for (int i = 0; i < 9; i++)
   {
-   mcu_dp_string_update(AV1+i,reinterpret_cast<const unsigned char *>(_userValues[i].getValue().c_str())
-   ,_userValues[i].getValue().length());
+    mcu_dp_string_update(AV1 + i, reinterpret_cast<const unsigned char *>(_userValues[i].getValue().c_str()), _userValues[i].getValue().length());
   }
 }
 
@@ -195,7 +205,7 @@ void Tuyav::setUserValue(int TuyaPinID, String value)
 
 void Tuyav::setUpdateRateMs(unsigned long updateRate)
 {
-  if(updateRate < 2000)
+  if (updateRate < 2000)
     updateRate = 2000;
   eventTime1 = updateRate;
 }
@@ -247,12 +257,22 @@ void Tuyav::setAV9(String value)
 
 void Tuyav::setDebug(bool enabled)
 {
-	_debug = enabled;
+  _debug = enabled;
+}
+
+void Tuyav::setPasstrough(bool pass)
+{
+  _passthrough = pass;
+}
+
+bool Tuyav::getPasstrough()
+{
+  return _passthrough;
 }
 
 void Tuyav::getTime()
 {
-	wifi_uart_write_frame(GET_LOCAL_TIME_CMD,0,1);
+  wifi_uart_write_frame(GET_LOCAL_TIME_CMD, 0, 1);
 }
 
 void Tuyav::setNetworkStatus(Network_Status status)
@@ -262,7 +282,94 @@ void Tuyav::setNetworkStatus(Network_Status status)
 
 Network_Status Tuyav::getNetworkStatus()
 {
+  //mcu_get_wifi_work_state();
   //mcu_get_wifi_connect_status();
   wifi_uart_write_frame(GET_WIFI_STATUS_CMD, MCU_TX_VER, 0);
+  wifi_uart_service();
   return _networkStatus;
+}
+
+void Tuyav::startWeather()
+{
+  mcu_open_weather();
+  wifi_uart_service();
+}
+
+void Tuyav::setWeatherParam(char *name, int param)
+{
+  if(my_strcmp(name,"temp") == 0)
+  {
+    _weather.Temperature = param;
+  }
+  else if(my_strcmp(name,"humidity") == 0)
+  {
+    _weather.Humidity = param;
+  }
+  else if(my_strcmp(name,"pm25") == 0)
+  {
+    _weather.PM25 = param;
+  }
+  else if(my_strcmp(name,"windSpeed") == 0)
+  {
+    _weather.WindSpeed = param;
+  }
+  else if(my_strcmp(name,"uvi") == 0)
+  {
+    _weather.UVIndex = param;
+  }
+  else if(my_strcmp(name,"pressure") == 0)
+  {
+    _weather.Pressure = param;
+  }
+  else if(my_strcmp(name,"aqi") == 0)
+  {
+    _weather.AirQuality = param;
+  }
+  else if(my_strcmp(name,"realFeel") == 0)
+  {
+    _weather.RealFeel = param;
+  }
+  else if(my_strcmp(name,"pm10") == 0)
+  {
+    _weather.PM10 = param;
+  }
+  else if(my_strcmp(name,"o3") == 0)
+  {
+    _weather.O3 = param;
+  }
+  else if(my_strcmp(name,"no2") == 0)
+  {
+    _weather.NO2 = param;
+  }
+  else if(my_strcmp(name,"co") == 0)
+  {
+    _weather.CO = param;
+  }
+}
+void Tuyav::setWeatherParam(char *name, const unsigned char* param)
+{
+  if (my_strcmp(name, "condition") == 0)
+  {
+    my_strcpy(_weather.Condition,param);
+  }
+  else if(my_strcmp(name, "sunRise") == 0)
+  {
+    my_strcpy(_weather.SunRise,param);
+  }
+  else if(my_strcmp(name, "sunSet") == 0)
+  {
+    my_strcpy(_weather.SunSet,param);
+  }
+}
+void Tuyav::setWeatherReceived(bool received)
+{
+  _weatherReceived = received;
+}
+weather_info Tuyav::getWeatherInfo()
+{
+  return _weather;
+}
+bool Tuyav::WeatherReceived()
+{
+  return _weatherReceived;
 }
