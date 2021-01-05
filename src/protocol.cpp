@@ -797,8 +797,6 @@ void get_upload_syn_result(unsigned char result)
  */
 void get_wifi_status(unsigned char result)
 {
-    Serial.print("WIFI STATUS: ");
-    Serial.println(result);
     tuyav.setNetworkStatus(result);
 }
 #endif
