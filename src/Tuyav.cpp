@@ -352,13 +352,17 @@ void Tuyav::setWeatherParam(char *name, const unsigned char* param)
   {
     my_strcpy(_weather.Condition,param);
   }
-  else if(my_strcmp(name, "sunRise") == 0)
+  if(my_strcmp(name, "sunRise") == 0)
   {
     my_strcpy(_weather.SunRise,param);
   }
-  else if(my_strcmp(name, "sunSet") == 0)
+  if(my_strcmp(name, "sunSet") == 0)
   {
     my_strcpy(_weather.SunSet,param);
+  }
+  if(my_strcmp(name,"city") == 0)
+  {
+    my_strcpy(_weather.City,param);
   }
 }
 void Tuyav::setWeatherReceived(bool received)

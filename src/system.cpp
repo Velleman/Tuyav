@@ -258,8 +258,8 @@ static unsigned char data_point_handle(const unsigned char value[])
 static void weather_data_raw_handle(const unsigned char p_data[], unsigned short data_len)
 {
     int i = 1;
-    int can_len = 0;
-    char can[15] = {0};
+    int param_length = 0;
+    char param[15] = {0};
     char day = 0;
     int type1 = 0;
     unsigned char value_string[100] = {0};
@@ -280,32 +280,32 @@ static void weather_data_raw_handle(const unsigned char p_data[], unsigned short
 
         while (i < data_len)
         {
-            can_len = p_data[i];
-            my_memset(can, '\0', 15);
-            my_memcpy(can, p_data + i + 3, can_len - 2);
+            param_length = p_data[i];
+            my_memset(param, '\0', 15);
+            my_memcpy(param, p_data + i + 3, param_length - 2);
 
             //day = p_data[i + can_len] - '0';
 
-            type1 = p_data[i + 1 + can_len];
+            type1 = p_data[i + 1 + param_length];
             if (type1 != 0 && type1 != 1)
             {
                 return;
             }
 
             my_memset(value_string, '\0', 100);
-            val_cnt = i + 1 + can_len + 1;
+            val_cnt = i + 1 + param_length + 1;
             val_len = p_data[val_cnt];
             if (type1 == 0)
             { //int32
-                weather_data_user_handle(can, type1, p_data + val_cnt + 1, day);
+                weather_data_user_handle(param, type1, p_data + val_cnt + 1, day);
             }
             else if (type1 == 1)
             { //string
                 my_memcpy(value_string, p_data + val_cnt + 1, val_len);
-                weather_data_user_handle(can, type1, value_string, day);
+                weather_data_user_handle(param, type1, value_string, day);
             }
 
-            i += 1 + can_len + 1 + 1 + val_len;
+            i += 1 + param_length + 1 + 1 + val_len;
         }
         tuyav.setWeatherReceived(true);
         wifi_uart_write_frame(WEATHER_DATA_CMD, 0, 0);

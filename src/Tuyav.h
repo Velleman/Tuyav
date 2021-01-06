@@ -50,6 +50,7 @@ struct weather_info{
   int O3;
   int NO2;
   int CO;
+  char City[50];
 };
 
 class Tuyav

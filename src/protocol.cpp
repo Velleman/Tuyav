@@ -48,8 +48,7 @@ const char *weather_choose[WEATHER_CHOOSE_CNT] = {
     "uvi",
     //"tips",
     "windDir",
-    "windLevel",
-    "windSpeed"
+    "windSpeed",
     "sunRise",
     "sunSet",
     "aqi",
@@ -681,13 +680,16 @@ void mcu_open_weather(void)
     //they need to be used with t.unix or t.local, and whether the parameter data needed to be acquired is based on green time or local time.
 
     //buffer[0] = sprintf(buffer+1,"t.unix"); //green time   or use  //
-    buffer[0] = sprintf(buffer+1,"t.local"); //local time
-    send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0]+1);
-
+    //buffer[0] = sprintf(buffer + 1, "t.local"); //local time
+    //send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0] + 1);
+    buffer[0] = sprintf(buffer+1,"c.%s","city");
+    send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0] + 1);
+    //Serial.println(send_len);
     /*buffer[0] = sprintf(buffer+1,"w.date.%d",WEATHER_FORECAST_DAYS_NUM);
     send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0]+1);*/
-
     wifi_uart_write_frame(WEATHER_OPEN_CMD, MCU_TX_VER, send_len);
+    
+    Serial.println();
     wifi_uart_service();
 }
 
@@ -742,17 +744,16 @@ void weather_data_user_handle(char *name, unsigned char type, const unsigned cha
     //char value_string[50]; //Since there are many parameters, the default is 50. You can reduce this value appropriately based on the defined parameters.
 
     //First get the data type
-    
 
     if (type == 0)
     { //The parameter is INT type
         value_int = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
-        tuyav.setWeatherParam(name,value_int);
+        tuyav.setWeatherParam(name, value_int);
     }
     else if (type == 1)
     {
         //my_strcpy(value_string, data);
-        tuyav.setWeatherParam(name,data);
+        tuyav.setWeatherParam(name, data);
     }
 }
 #endif

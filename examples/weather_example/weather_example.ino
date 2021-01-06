@@ -3,8 +3,9 @@
  *  v1.0 by BN&PSI @ Velleman NV - feb 2020
  *  works with VMA354 Tuya IoT interface
  *  
- *  This example program shows you how to interface with the Tuya IoT interface board
- *  for the full manual, please visit https://www.vellemanformakers.com/product/VMA354
+ *  This example retrieves the weather Info from the Tuya module
+ *  The Tuya module will send weather info to the arduino when it's connected to the cloud on start-up.
+ *  After the startup it will send the weather info with a 30 min interval
  *  
  *  Connections:
  *  VMA354    Arduino UNO           Arduino MEGA          Arduino Nano Every
@@ -66,9 +67,30 @@ void loop()
     //Should be called continuously
     tuyav.tuyaUpdate();
 
-    if(tuyav.WeatherReceived()) //Check if new weather info is received
+    if(tuyav.WeatherReceived()) //Check if new weather info is received, On startup and after that a 30min interval
     {
+        /*
+        Available Weather Info
+        int Temperature
+        int Humidity
+        int PM25
+        char* Condition
+        int Pressure
+        int RealFeel
+        int UVIndex
+        char* WindDirection
+        int WindSpeed
+        char* SunSet
+        char* SunRise
+        int AirQuality
+        int PM10
+        int O3
+        int NO2
+        int CO
+        */
         weather_info weather = tuyav.getWeatherInfo();
+        sprintf(printBuffer,"This is the weather info for %s",weather.City);
+        Serial.println(printBuffer);
         //Temperature
         sprintf(printBuffer,"The Temperature is %d degrees Celsius",weather.Temperature);
         Serial.println(printBuffer);
@@ -78,9 +100,14 @@ void loop()
         //Sunset
         sprintf(printBuffer,"The Sun will set at %s",weather.SunSet);
         Serial.println(printBuffer);
+        //Sunrise
+        sprintf(printBuffer,"The Sun will rise at %s",weather.SunRise);
+        Serial.println(printBuffer);
         //UV Index
         sprintf(printBuffer,"The UVIndex is %d",weather.UVIndex);
         Serial.println(printBuffer);
+        //City
+        
         tuyav.setWeatherReceived(false); //Reset flag
     }
 }
