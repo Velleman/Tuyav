@@ -689,7 +689,7 @@ void mcu_open_weather(void)
     send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0]+1);*/
     wifi_uart_write_frame(WEATHER_OPEN_CMD, MCU_TX_VER, send_len);
     
-    Serial.println();
+   //Serial.println();
     wifi_uart_service();
 }
 

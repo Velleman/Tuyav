@@ -124,11 +124,11 @@ void Tuyav::tuyaUpdate()
   //check if the last time is more than 2000ms ago
   if (currentTime - previousTime1 >= eventTime1)
   {
-    //digitalUpdate();
+    digitalUpdate();
     wifi_uart_service();
-    //analogUpdate();
+    analogUpdate();
     wifi_uart_service();
-    //userValueUpdate();
+    userValueUpdate();
     wifi_uart_service();
     previousTime1 = millis();
   }
