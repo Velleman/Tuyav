@@ -45,7 +45,7 @@ void setup()
 {
   //start serial for debugging
   Serial.begin(9600);
-  Serial.println("Tuya Demo program");
+  Serial.println("Tuya Time program");
 
   //if ArduinoMega or ArduinoNanoEvery, start Serial1
   #if defined(ARDUINO_AVR_UNO)

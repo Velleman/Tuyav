@@ -54,9 +54,6 @@ void setup()
     //init the chip
     tuyav.initialize();
     //set arbitrary values (9 are available - read only in the app)
-    tuyav.setUserValue(AV1, "Network Status");
-    tuyav.setAV2("SW version");
-    tuyav.setAV3("V1.0");
 }
 
 void loop()

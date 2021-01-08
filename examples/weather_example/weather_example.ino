@@ -36,7 +36,7 @@ void setup()
 {
     //start serial for debugging
     Serial.begin(9600);
-    Serial.println("Tuya Demo program");
+    Serial.println("Tuya Weather program");
 
 //if ArduinoMega or ArduinoNanoEvery, start Serial1
 #if defined(ARDUINO_AVR_UNO)
@@ -49,16 +49,13 @@ void setup()
     // If you do not use a pin, set the pin as PIN_UNUSED
     tuyav.setDigitalInputs(PIN_UNUSED, PIN_UNUSED, PIN_UNUSED);                  //Set DigitalInputs
     tuyav.setAnalogInputs(PIN_UNUSED, PIN_UNUSED, PIN_UNUSED);                   //Set AnalogInputs
-    tuyav.setDigitalOutputs(13, PIN_UNUSED, PIN_UNUSED, PIN_UNUSED, PIN_UNUSED); //SetDigitalOutputs
+    tuyav.setDigitalOutputs(PIN_UNUSED, PIN_UNUSED, PIN_UNUSED, PIN_UNUSED, PIN_UNUSED); //SetDigitalOutputs
     tuyav.setAnalogOutputs(PIN_UNUSED, PIN_UNUSED, PIN_UNUSED);                  //Set AnalogOutputs (PWM digital pins)
 
     //init the chip
     tuyav.initialize();
-    //set arbitrary values (9 are available - read only in the app)
-    tuyav.setUserValue(AV1, "Weather Info");
-    tuyav.setAV2("SW version");
-    tuyav.setAV3("V1.0");
-    delay(5000);
+    //Wait for tuya module to connect to the cloud
+    delay(3000);
     tuyav.startWeather();
 }
 
@@ -69,6 +66,7 @@ void loop()
 
     if(tuyav.WeatherReceived()) //Check if new weather info is received, On startup and after that a 30min interval
     {
+        //To force the Tuya module to send the weather immediately power cycle the Tuya module
         /*
         Available Weather Info
         int Temperature
