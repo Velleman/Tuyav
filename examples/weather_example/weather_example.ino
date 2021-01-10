@@ -87,11 +87,15 @@ void loop()
         int CO
         */
         weather_info weather = tuyav.getWeatherInfo();
-        sprintf(printBuffer,"This is the weather info for %s",weather.City);
-        Serial.println(printBuffer);
+        //City
+        String City = String(weather.City);
+        Serial.print("This is the weather info for ");
+        Serial.println(City);        
         //Temperature
-        sprintf(printBuffer,"The Temperature is %d degrees Celsius",weather.Temperature);
-        Serial.println(printBuffer);
+        String temperature = "The Temperature is ";
+        temperature += weather.Temperature;
+        temperature += " degrees Celsius";
+        Serial.print(temperature);
         //Condition
         sprintf(printBuffer,"The condition is %s",weather.Condition);
         Serial.println(printBuffer);
@@ -104,7 +108,7 @@ void loop()
         //UV Index
         sprintf(printBuffer,"The UVIndex is %d",weather.UVIndex);
         Serial.println(printBuffer);
-        //City
+        
         
         tuyav.setWeatherReceived(false); //Reset flag
     }
