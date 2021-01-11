@@ -95,7 +95,7 @@ void loop()
         String temperature = "The Temperature is ";
         temperature += weather.Temperature;
         temperature += " degrees Celsius";
-        Serial.print(temperature);
+        Serial.println(temperature);
         //Condition
         sprintf(printBuffer,"The condition is %s",weather.Condition);
         Serial.println(printBuffer);
