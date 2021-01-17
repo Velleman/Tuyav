@@ -680,8 +680,8 @@ void mcu_open_weather(void)
     //they need to be used with t.unix or t.local, and whether the parameter data needed to be acquired is based on green time or local time.
 
     //buffer[0] = sprintf(buffer+1,"t.unix"); //green time   or use  //
-    //buffer[0] = sprintf(buffer + 1, "t.local"); //local time
-    //send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0] + 1);
+    buffer[0] = sprintf(buffer + 1, "t.local"); //local time
+    send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0] + 1);
     buffer[0] = sprintf(buffer+1,"c.%s","city");
     send_len = set_wifi_uart_buffer(send_len, (unsigned char *)buffer, buffer[0] + 1);
     //Serial.println(send_len);
