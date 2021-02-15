@@ -55,7 +55,12 @@ void setup()
     //init the chip
     tuyav.initialize();
     //Wait for tuya module to connect to the cloud
-    delay(3000);
+    Serial.println("Waiting for Tuya Module to be connected to the cloud");
+    while(tuyav.getNetworkStatus() != 4)
+    {
+        tuyav.tuyaUpdate();
+    }
+    Serial.println("Activating the weather service");
     tuyav.startWeather();
 }
 
