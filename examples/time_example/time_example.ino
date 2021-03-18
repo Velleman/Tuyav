@@ -3,8 +3,8 @@
  *  v1.0 by BN&PSI @ Velleman NV - nov 2020
  *  works with VMA354 Tuya IoT interface
  *  
- *  This example program shows you how to interface with the Tuya IoT interface board & how the timing function is called
- *  for the full manual, please visit https://www.whadda.com/product/VMA354
+ *  This example program shows you how to interface with the Tuya IoT interface board
+ *  for the full product info, please visit https://whadda.com/product/tuya-iot-interface-wpi354/
  *  
  *  Connections:
  *  VMA354    Arduino UNO           Arduino MEGA          Arduino Nano Every
