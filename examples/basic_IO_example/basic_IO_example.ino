@@ -4,7 +4,7 @@
  *  works with VMA354 Tuya IoT interface
  *  
  *  This example program shows you how to interface with the Tuya IoT interface board
- *  for the full manual, please visit https://www.vellemanformakers.com/product/VMA354
+ *  for the full product info, please visit https://whadda.com/product/tuya-iot-interface-wpi354/
  *  
  *  Connections:
  *  VMA354    Arduino UNO           Arduino MEGA          Arduino Nano Every
