@@ -205,10 +205,11 @@ static unsigned char dp_download_dout_1_handle(const unsigned char value[], unsi
     if (tuyav.getDigitalOutput(0).get_PinID() != -1)
     {
         tuyav.getDigitalOutput(0).writeDigital(dout_1);
-        tuyav.DIGITAL_OUT[0] = dout_1;
+        
 
         //处理完DP数据后应有反馈
     }
+    tuyav.DIGITAL_OUT[0] = dout_1;
     ret = mcu_dp_bool_update(DPID_DOUT_1, dout_1);
     if (ret == SUCCESS)
         return SUCCESS;
@@ -234,8 +235,9 @@ static unsigned char dp_download_dout_2_handle(const unsigned char value[], unsi
     if (tuyav.getDigitalOutput(1).get_PinID() != -1)
     {
         tuyav.getDigitalOutput(1).writeDigital(dout_2);
-        tuyav.DIGITAL_OUT[1] = dout_2;
+        
     }
+    tuyav.DIGITAL_OUT[1] = dout_2;
     //处理完DP数据后应有反馈
     ret = mcu_dp_bool_update(DPID_DOUT_2, dout_2);
     if (ret == SUCCESS)
@@ -262,9 +264,9 @@ static unsigned char dp_download_dout_3_handle(const unsigned char value[], unsi
     if (tuyav.getDigitalOutput(2).get_PinID() != -1)
     {
         tuyav.getDigitalOutput(2).writeDigital(dout_3);
-        tuyav.DIGITAL_OUT[2] = dout_3;
+        
     }
-
+    tuyav.DIGITAL_OUT[2] = dout_3;
     //处理完DP数据后应有反馈
     ret = mcu_dp_bool_update(DPID_DOUT_3, dout_3);
     if (ret == SUCCESS)
@@ -291,9 +293,9 @@ static unsigned char dp_download_dout_4_handle(const unsigned char value[], unsi
     if (tuyav.getDigitalOutput(3).get_PinID() != -1)
     {
         tuyav.getDigitalOutput(3).writeDigital(dout_4);
-        tuyav.DIGITAL_OUT[3] = dout_4;
+        
     }
-
+    tuyav.DIGITAL_OUT[3] = dout_4;
     //处理完DP数据后应有反馈
     ret = mcu_dp_bool_update(DPID_DOUT_4, dout_4);
     if (ret == SUCCESS)
@@ -320,9 +322,9 @@ static unsigned char dp_download_dout_5_handle(const unsigned char value[], unsi
     if (tuyav.getDigitalOutput(4).get_PinID() != -1)
     {
         tuyav.getDigitalOutput(4).writeDigital(dout_5);
-        tuyav.DIGITAL_OUT[4] = dout_5;
+        
     }
-
+    tuyav.DIGITAL_OUT[4] = dout_5;
     //处理完DP数据后应有反馈
     ret = mcu_dp_bool_update(DPID_DOUT_5, dout_5);
     if (ret == SUCCESS)
@@ -348,11 +350,11 @@ static unsigned char dp_download_aout_1_handle(const unsigned char value[], unsi
     if (tuyav.getAnalogOutput(0).get_PinID() != -1)
     {
         tuyav.getAnalogOutput(0).writeAnalog(aout_1);
-        tuyav.ANALOG_OUT[0] = aout_1;
+        
         //Serial.print("AOUT1 ");
         //Serial.println(aout_1);
     }
-
+    tuyav.ANALOG_OUT[0] = aout_1;
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_AOUT_1, aout_1);
     if (ret == SUCCESS)
@@ -378,10 +380,11 @@ static unsigned char dp_download_aout_2_handle(const unsigned char value[], unsi
     if (tuyav.getAnalogOutput(1).get_PinID() != -1)
     {
         tuyav.getAnalogOutput(1).writeAnalog(aout_2);
-        tuyav.ANALOG_OUT[1] = aout_2;
+        
         //Serial.print("AOUT2 ");
         //Serial.println(aout_2);
     }
+    tuyav.ANALOG_OUT[1] = aout_2;
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_AOUT_2, aout_2);
     if (ret == SUCCESS)
@@ -407,11 +410,12 @@ static unsigned char dp_download_aout_3_handle(const unsigned char value[], unsi
     if (tuyav.getAnalogOutput(2).get_PinID() != -1)
     {
         tuyav.getAnalogOutput(2).writeAnalog(aout_3);
-        tuyav.ANALOG_OUT[2] = aout_3;
+        
 
         //Serial.print("AOUT3 ");
         //Serial.println(aout_3);
     }
+    tuyav.ANALOG_OUT[2] = aout_3;
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_AOUT_3, aout_3);
     if (ret == SUCCESS)
@@ -553,7 +557,7 @@ unsigned char mcu_firm_update_handle(const unsigned char value[], unsigned long 
 void mcu_get_greentime(unsigned char time[])
 {
 #error "Complete the code yourself and delete the line"
-    /*
+    /* 
     time[0] is the flag of success for obtaining the time,0: failure / 1: success
     time[1] is year, 0x00 :2000 year
     time[2] is month, It starts at 1 and ends at 12
